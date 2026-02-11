@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream-50: #fffbf4;
+  --color-cream-100: #FEF7EA;
+  --color-brown-700: #987154;
+  --color-brown-800: #594B40;
+  --color-brown-900: #493D34;
+  --color-orange-100: #F5D2BB;
+  --color-orange-500: #F9954D;
+  --color-orange-600: #EC8032;
+  --color-red-500: #e45770;
+  --color-green-500: #61AA64;
+  --color-green-600: #5B8B5D;
+  --font-sans: var(--font-satoshi);
+  --font-mono: var(--font-space-mono);
+}
+
+body {
+  font-family: var(--font-satoshi), sans-serif;
+  background: var(--color-cream-50);
+  color: var(--color-brown-900);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--color-orange-500);
+  outline-offset: 2px;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25% { border-radius: 58% 42% 58% 42% / 52% 60% 40% 48%; }
+  50% { border-radius: 50% 50% 35% 65% / 55% 40% 60% 45%; }
+  75% { border-radius: 40% 60% 65% 35% / 45% 55% 45% 55%; }
+}
