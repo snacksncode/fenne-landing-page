@@ -66,13 +66,13 @@ Build 5 new, stunning, fully responsive hero section variants for the Fenne land
 - `/public/mockups/*.png` — Migrated and renamed mockup images
 
 ### Definition of Done
-- [ ] All 5 new hero variants render correctly at 375px, 768px, 1024px, and 1920px viewports
-- [ ] Toolbar always visible without `?hero=showcase`
-- [ ] No broken images (all mockup paths resolve)
-- [ ] No horizontal scroll at any viewport on any variant
-- [ ] `Features.tsx` still renders correctly (not broken by cleanup)
-- [ ] `npm run build` succeeds with zero errors
-- [ ] `prefers-reduced-motion` respected — content renders without animation errors
+- [x] All 5 new hero variants render correctly at 375px, 768px, 1024px, and 1920px viewports
+- [x] Toolbar always visible without `?hero=showcase`
+- [x] No broken images (all mockup paths resolve)
+- [x] No horizontal scroll at any viewport on any variant
+- [x] `Features.tsx` still renders correctly (not broken by cleanup)
+- [x] `npm run build` succeeds with zero errors
+- [x] `prefers-reduced-motion` respected — content renders without animation errors
 
 ### Must Have
 - Responsive layouts at all 4 breakpoints (mobile 375px, tablet 768px, desktop 1024px, ultra-wide 1920px)
@@ -933,7 +933,7 @@ Critical Path: Task 1 → Task 2 → Task 3 → ... → Task 7 → Task 8 → Ta
 
 ---
 
-- [ ] 9. Delete Old Hero Code + Unused Screenshots
+- [x] 9. Delete Old Hero Code + Unused Screenshots
 
   **What to do**:
   - **Delete old hero component files**:
@@ -1061,13 +1061,13 @@ grep -r "PhoneFrame" src/components/heroes/Hero*.tsx  # Expected: no results (ne
 ```
 
 ### Final Checklist
-- [ ] All 5 new hero variants render at 375px, 768px, 1024px, 1920px without horizontal scroll
-- [ ] Toolbar always visible, switching works between all 5 variants
-- [ ] All mockup images load (no 404s, no broken images)
-- [ ] `prefers-reduced-motion` respected on all variants
-- [ ] Features section still renders correctly (PhoneFrame + 3 screenshots intact)
-- [ ] No fox mascot in any new hero variant
-- [ ] No `PhoneFrame` usage in any new hero variant
-- [ ] `npm run build` passes with zero errors
-- [ ] No references to old hero component names in source code
-- [ ] Old mockup source directory removed
+- [x] All 5 new hero variants render at 375px, 768px, 1024px, 1920px without horizontal scroll
+- [x] Toolbar always visible, switching works between all 5 variants
+- [x] All mockup images load (no 404s, no broken images)
+- [x] `prefers-reduced-motion` respected on all variants
+- [x] Features section still renders correctly (PhoneFrame + 3 screenshots intact)
+- [x] No fox mascot in any new hero variant
+- [x] No `PhoneFrame` usage in any new hero variant
+- [x] `npm run build` passes with zero errors
+- [x] No references to old hero component names in source code
+- [x] Old mockup source directory removed
