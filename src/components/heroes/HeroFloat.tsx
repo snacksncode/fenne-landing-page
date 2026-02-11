@@ -10,48 +10,16 @@ import {
   HeroBackground,
 } from './_shared'
 
-const FLOATING_SCREENSHOTS = [
+const MOCKUPS = [
   {
     src: '/mockups/weekly-plan-portrait.png',
-    alt: 'Fenne weekly meal plan',
-    position: 'top-[8%] left-[5%]',
-    rotation: -12,
-    scale: 0.35,
-  },
-  {
-    src: '/mockups/recipes-list-portrait.png',
-    alt: 'Fenne recipes list',
-    position: 'top-[15%] right-[8%]',
-    rotation: 8,
-    scale: 0.32,
+    alt: 'Fenne weekly meal plan — plan your week at a glance',
+    label: 'Weekly Plan',
   },
   {
     src: '/mockups/groceries-portrait.png',
-    alt: 'Fenne grocery list',
-    position: 'bottom-[25%] left-[3%]',
-    rotation: 15,
-    scale: 0.28,
-  },
-  {
-    src: '/mockups/meal-detail-portrait.png',
-    alt: 'Fenne meal detail view',
-    position: 'bottom-[20%] right-[5%]',
-    rotation: -10,
-    scale: 0.3,
-  },
-  {
-    src: '/mockups/monthly-calendar-portrait.png',
-    alt: 'Fenne monthly calendar',
-    position: 'top-[45%] left-[2%]',
-    rotation: -8,
-    scale: 0.25,
-  },
-  {
-    src: '/mockups/groceries-checked-portrait.png',
-    alt: 'Fenne groceries checked off',
-    position: 'top-[50%] right-[3%]',
-    rotation: 12,
-    scale: 0.27,
+    alt: 'Fenne grocery list — auto-generated from your meals',
+    label: 'Grocery List',
   },
 ] as const
 
@@ -102,30 +70,31 @@ export function HeroFloat() {
 
       await new Promise((r) => setTimeout(r, 200))
 
-      // 5. Floating screenshots stagger in
+      // 5. Mockups glide in from sides
       animate(
-        '.floating-screenshot',
-        { opacity: 1, scale: 1 },
-        {
-          duration: 1.2,
-          ease: [0.22, 1, 0.36, 1],
-          delay: stagger(0.15),
-        }
+        '.floating-screenshot-left',
+        { opacity: 1, x: 0 },
+        { duration: 1, ease: [0.22, 1, 0.36, 1] }
+      )
+      animate(
+        '.floating-screenshot-right',
+        { opacity: 1, x: 0 },
+        { duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }
       )
 
-      // Wait for screenshots to start appearing, then begin float
-      await new Promise((r) => setTimeout(r, 800))
+      // Wait for mockups to settle, then float
+      await new Promise((r) => setTimeout(r, 1000))
 
-      // 6. Continuous floating motion
+      // 6. Gentle continuous float — offset timing for organic feel
       animate(
-        '.floating-screenshot',
-        { y: [0, -20, 0] },
-        {
-          duration: 6,
-          ease: 'easeInOut',
-          repeat: Infinity,
-          delay: stagger(0.3),
-        }
+        '.floating-screenshot-left',
+        { y: [0, -14, 0] },
+        { duration: 5, ease: 'easeInOut', repeat: Infinity }
+      )
+      animate(
+        '.floating-screenshot-right',
+        { y: [0, -14, 0] },
+        { duration: 5.5, ease: 'easeInOut', repeat: Infinity, delay: 1.5 }
       )
 
       // 7. Scroll arrow pulse
@@ -147,32 +116,63 @@ export function HeroFloat() {
     >
       <HeroBackground filterId="float-grain" />
 
-      {/* Floating screenshots — desktop only */}
-      {FLOATING_SCREENSHOTS.map((shot) => (
-        <div
-          key={shot.src}
-          className={`floating-screenshot pointer-events-none absolute z-10 hidden lg:block ${shot.position}`}
-          style={
-            prefersReducedMotion
-              ? {
-                  transform: `rotate(${shot.rotation}deg) scale(${shot.scale})`,
-                }
-              : {
-                  opacity: 0,
-                  transform: `rotate(${shot.rotation}deg) scale(${shot.scale * 0.8})`,
-                }
-          }
-        >
-          <Image
-            src={shot.src}
-            alt={shot.alt}
-            width={1419}
-            height={2796}
-            sizes="220px"
-            className="h-auto w-[220px] rounded-[1.5rem] shadow-xl"
-          />
-        </div>
-      ))}
+      {/* Left mockup — Weekly Plan */}
+      <div
+        className="floating-screenshot-left pointer-events-none absolute z-10 hidden lg:block"
+        style={
+          prefersReducedMotion
+            ? {
+                left: '5%',
+                top: '50%',
+                transform: 'translateY(-55%) rotate(-6deg)',
+              }
+            : {
+                left: '5%',
+                top: '50%',
+                opacity: 0,
+                transform: 'translateY(-55%) translateX(-80px) rotate(-6deg)',
+              }
+        }
+      >
+        <Image
+          src={MOCKUPS[0].src}
+          alt={MOCKUPS[0].alt}
+          width={1419}
+          height={2796}
+          sizes="280px"
+          className="h-auto w-[280px]"
+          priority
+        />
+      </div>
+
+      {/* Right mockup — Grocery List */}
+      <div
+        className="floating-screenshot-right pointer-events-none absolute z-10 hidden lg:block"
+        style={
+          prefersReducedMotion
+            ? {
+                right: '5%',
+                top: '50%',
+                transform: 'translateY(-45%) rotate(6deg)',
+              }
+            : {
+                right: '5%',
+                top: '50%',
+                opacity: 0,
+                transform: 'translateY(-45%) translateX(80px) rotate(6deg)',
+              }
+        }
+      >
+        <Image
+          src={MOCKUPS[1].src}
+          alt={MOCKUPS[1].alt}
+          width={1419}
+          height={2796}
+          sizes="280px"
+          className="h-auto w-[280px]"
+          priority
+        />
+      </div>
 
       {/* Central content */}
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-6 lg:px-12">
