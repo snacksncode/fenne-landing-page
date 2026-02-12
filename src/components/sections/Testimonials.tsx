@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
+import { easeOutQuint } from '@/lib/easings'
 
 const testimonials = [
   {
@@ -84,32 +85,14 @@ const cardVariants = {
   },
 }
 
-const cardVariantsReduced = {
-  hidden: { opacity: 1, y: 0, scale: 1 },
-  visible: { opacity: 1, y: 0, scale: 1 },
-}
-
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
   const cardsInView = useInView(cardsRef, { once: true, margin: '-15% 0px' })
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
-  useEffect(() => {
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mql.matches)
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
-  }, [])
-
-  const titleInitial = prefersReducedMotion
-    ? { opacity: 1, y: 0 }
-    : { opacity: 0, y: 30 }
-
-  const activeCardVariants = prefersReducedMotion ? cardVariantsReduced : cardVariants
+  const titleInitial = { opacity: 0, y: 30 }
 
   return (
     <section
@@ -143,7 +126,7 @@ export function Testimonials() {
           className="testimonials-title mb-14 text-center font-sans text-4xl md:text-5xl font-black tracking-tight text-cream-50 md:mb-20"
           initial={titleInitial}
           animate={titleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.9, ease: easeOutQuint }}
         >
           What our <span className="text-orange-500">beta testers</span> say
         </motion.h2>
@@ -155,12 +138,12 @@ export function Testimonials() {
           initial="hidden"
           animate={cardsInView ? 'visible' : 'hidden'}
         >
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={t.name}
-              className="testimonial-card relative"
-              variants={activeCardVariants}
-            >
+           {testimonials.map((t, i) => (
+             <motion.div
+               key={t.name}
+               className="testimonial-card relative"
+               variants={cardVariants}
+             >
                <div
                 className={`relative rounded-3xl px-7 py-6 md:px-8 md:py-7 transition-all duration-300 hover:scale-[1.03] ${
                   t.accent

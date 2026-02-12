@@ -12,7 +12,9 @@ const navLinks = [
 
 function scrollToSection(href: string) {
   const windowWithLenis = window as typeof window & {
-    lenis?: { scrollTo: (target: string, options?: { offset?: number }) => void }
+    lenis?: {
+      scrollTo: (target: string, options?: { offset?: number }) => void
+    }
   }
 
   if (windowWithLenis.lenis) {
@@ -23,23 +25,27 @@ function scrollToSection(href: string) {
   }
 }
 
-function HamburgerIcon({ open, reducedMotion }: { open: boolean; reducedMotion: boolean }) {
+function HamburgerIcon({
+  open,
+}: {
+  open: boolean
+}) {
   return (
     <div className="relative w-5 h-4 flex flex-col justify-between">
       <motion.span
         className="block h-[1.5px] w-full bg-current origin-left"
         animate={open ? { rotate: 45, y: -1, x: 1 } : { rotate: 0, y: 0, x: 0 }}
-        transition={{ duration: reducedMotion ? 0 : 0.3 }}
+        transition={{ duration: 0.3 }}
       />
       <motion.span
         className="block h-[1.5px] w-full bg-current"
         animate={open ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-        transition={{ duration: reducedMotion ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
       />
       <motion.span
         className="block h-[1.5px] w-full bg-current origin-left"
         animate={open ? { rotate: -45, y: 1, x: 1 } : { rotate: 0, y: 0, x: 0 }}
-        transition={{ duration: reducedMotion ? 0 : 0.3 }}
+        transition={{ duration: 0.3 }}
       />
     </div>
   )
@@ -49,15 +55,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeLink, setActiveLink] = useState<string | null>(null)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mql.matches)
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
-  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -113,7 +110,7 @@ export function Nav() {
                 <motion.div
                   layoutId="nav-underline"
                   className="absolute bottom-0.5 left-3 right-3 h-[2px] rounded-full bg-orange-500"
-                  transition={prefersReducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 380, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               ) : (
                 <span className="absolute bottom-0.5 left-3 right-3 h-[2px] rounded-full bg-orange-500/40 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
@@ -123,7 +120,6 @@ export function Nav() {
 
           <button
             onClick={() => handleNavClick('#cta')}
-            data-magnetic
             className="ml-4 px-5 py-2 text-sm font-medium rounded-full bg-brown-900 text-cream-50 transition-all duration-300 hover:bg-brown-800 hover:shadow-lg hover:shadow-brown-900/10 hover:scale-[1.04] active:scale-[0.97]"
           >
             Get Started
@@ -136,43 +132,54 @@ export function Nav() {
           className="md:hidden p-2 text-brown-900"
           aria-label="Toggle menu"
         >
-          <HamburgerIcon open={mobileOpen} reducedMotion={prefersReducedMotion} />
+          <HamburgerIcon
+            open={mobileOpen}
+          />
         </button>
       </div>
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            data-testid="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            className="md:hidden overflow-hidden bg-cream-50/95 backdrop-blur-xl border-t border-brown-900/5"
-          >
+           <motion.div
+             data-testid="mobile-menu"
+             initial={{ height: 0, opacity: 0 }}
+             animate={{ height: 'auto', opacity: 1 }}
+             exit={{ height: 0, opacity: 0 }}
+             transition={{
+               duration: 0.3,
+               ease: [0.25, 0.1, 0.25, 1],
+             }}
+             className="md:hidden overflow-hidden bg-cream-50/95 backdrop-blur-xl border-t border-brown-900/5"
+           >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link, i) => (
-                <motion.button
-                  key={link.href}
-                  initial={{ x: -16, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: prefersReducedMotion ? 0 : i * 0.05, duration: prefersReducedMotion ? 0 : 0.25 }}
-                  onClick={() => handleNavClick(link.href)}
-                  className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg transition-colors hover:bg-brown-900/5"
-                >
-                  {link.label}
-                </motion.button>
+                 <motion.button
+                   key={link.href}
+                   initial={{ x: -16, opacity: 0 }}
+                   animate={{ x: 0, opacity: 1 }}
+                   transition={{
+                     delay: i * 0.05,
+                     duration: 0.25,
+                   }}
+                   onClick={() => handleNavClick(link.href)}
+                   className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg transition-colors hover:bg-brown-900/5"
+                 >
+                   {link.label}
+                 </motion.button>
               ))}
 
-              <motion.button
-                initial={{ x: -16, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: prefersReducedMotion ? 0 : navLinks.length * 0.05, duration: prefersReducedMotion ? 0 : 0.25 }}
-                onClick={() => handleNavClick('#cta')}
-                className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center transition-all hover:bg-brown-800"
-              >
-                Get Started
-              </motion.button>
+               <motion.button
+                 initial={{ x: -16, opacity: 0 }}
+                 animate={{ x: 0, opacity: 1 }}
+                 transition={{
+                   delay: navLinks.length * 0.05,
+                   duration: 0.25,
+                 }}
+                 onClick={() => handleNavClick('#cta')}
+                 className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center transition-all hover:bg-brown-800"
+               >
+                 Get Started
+               </motion.button>
             </div>
           </motion.div>
         )}

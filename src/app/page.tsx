@@ -1,13 +1,10 @@
 import { Nav } from '@/components/Nav'
-import { HeroSwitcher } from '@/components/HeroSwitcher'
-import { ValueProp } from '@/components/sections/ValueProp'
-import { Features } from '@/components/sections/Features'
-import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Hero } from '@/components/heroes/Hero'
+import { BentoGrid } from '@/components/sections/features/index'
+import { HowItWorks } from '@/components/sections/how-it-works'
 import { Footer } from '@/components/sections/Footer'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { CTA } from '@/components/sections/CTA'
-import { DecorativeElements } from '@/components/DecorativeElements'
-import { MagneticCursor } from '@/components/MagneticCursor'
 
 export default function Home() {
   return (
@@ -20,16 +17,14 @@ export default function Home() {
       </a>
       <Nav />
       <main id="main-content">
-        <HeroSwitcher />
-        <ValueProp />
-        <Features />
+        <Hero />
+        {/* <ValueProp /> */}
+        <BentoGrid />
         <HowItWorks />
         <Testimonials />
         <CTA />
       </main>
       <Footer />
-      <DecorativeElements />
-      <MagneticCursor />
     </div>
-  );
+  )
 }
