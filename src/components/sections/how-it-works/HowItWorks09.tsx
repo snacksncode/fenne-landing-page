@@ -100,8 +100,8 @@ function StepIcon({
   progress: MotionValue<number>
 }) {
   const threshold = getStepThreshold(index)
-  const opacity = useTransform(progress, [threshold - 0.08, threshold], [0, 1])
-  const scale = useTransform(progress, [threshold - 0.08, threshold], [0.5, 1])
+  const opacity = useTransform(progress, [threshold - 0.03, threshold], [0, 1])
+  const scale = useTransform(progress, [threshold - 0.03, threshold], [0.5, 1])
   const pos = getPosition(step.angle, ringRadius)
   const Icon = step.icon
 
@@ -211,27 +211,20 @@ export function HowItWorks09() {
   const titleRef = useRef<HTMLDivElement>(null)
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'center start'],
-  })
-
-  const ringProgress = useTransform(scrollYProgress, [0.35, 1], [0, 1])
+  const { scrollYProgress } = useScroll({ target: sectionRef })
+  const ringProgress = useTransform(scrollYProgress, [0, 0.95], [0, 1])
 
   // Calculate active step index based on ringProgress
   const activeStepIndex = useTransform(ringProgress, (value) => {
     return Math.min(Math.floor(value * steps.length), steps.length - 1)
   })
 
-  // Track step changes
   useMotionValueEvent(activeStepIndex, 'change', (latest) => {
     setCurrentStepIndex(latest)
   })
 
   const pulseScale = useTransform(ringProgress, [0.95, 1], [1, 1.03])
   const pulseOpacity = useTransform(ringProgress, [0.95, 1], [0, 0.4])
-
   const desktopDashOffset = useTransform(
     ringProgress,
     [0, 1],
@@ -247,7 +240,7 @@ export function HowItWorks09() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative h-[300vh]" // py-28 md:py-44
+      className="relative h-[400vh]"
       style={{ background: 'var(--color-cream-50)' }}
     >
       <div className="sticky h-screen flex flex-col items-center justify-center top-0">
@@ -341,10 +334,10 @@ export function HowItWorks09() {
                 {steps[currentStepIndex] && (
                   <motion.div
                     key={`step-${currentStepIndex}`}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.4 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ ease: easeOutCubic, duration: 0.2 }}
                     className="absolute inset-0 flex flex-col items-center justify-center"
                   >
                     {(() => {
@@ -352,12 +345,15 @@ export function HowItWorks09() {
                       return (
                         <>
                           <div className="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mb-4">
-                            <Icon className="w-7 h-7 text-orange-600" strokeWidth={2} />
+                            <Icon
+                              className="w-7 h-7 text-orange-600"
+                              strokeWidth={2}
+                            />
                           </div>
                           <h3 className="text-2xl font-black text-brown-900 tracking-tight">
                             {steps[currentStepIndex].title}
                           </h3>
-                          <p className="text-sm text-brown-700 mt-2 max-w-xs text-center leading-relaxed">
+                          <p className="text-sm text-brown-700 mt-2 max-w-50 text-balance w-full text-center leading-normal">
                             {steps[currentStepIndex].description}
                           </p>
                         </>
@@ -449,7 +445,6 @@ export function HowItWorks09() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.4 }}
                       className="absolute inset-0 flex flex-col items-center justify-center px-4"
                     >
                       {(() => {
@@ -457,7 +452,10 @@ export function HowItWorks09() {
                         return (
                           <>
                             <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center mb-3">
-                              <Icon className="w-6 h-6 text-orange-600" strokeWidth={2} />
+                              <Icon
+                                className="w-6 h-6 text-orange-600"
+                                strokeWidth={2}
+                              />
                             </div>
                             <h3 className="text-xl font-black text-brown-900 tracking-tight">
                               {steps[currentStepIndex].title}
