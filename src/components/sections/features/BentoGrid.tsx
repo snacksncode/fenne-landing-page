@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'motion/react'
 import Image from 'next/image'
 import weeklyPlan from '../../../../public/mockups/weekly-plan-portrait.png'
@@ -28,6 +28,17 @@ const groceryItems = [
 export function BentoGrid() {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-10% 0px' })
+
+  const [checkedItems, setCheckedItems] = useState({
+    milk: true,
+    chicken: false,
+    apples: false,
+    oil: false,
+  })
+
+  const toggleItem = (itemKey: keyof typeof checkedItems) => {
+    setCheckedItems((prev) => ({ ...prev, [itemKey]: !prev[itemKey] }))
+  }
 
   const cardAnimation = {
     initial: { opacity: 0, y: 24, scale: 0.9 },
@@ -122,60 +133,84 @@ export function BentoGrid() {
                 Check off items as you shop.
               </p>
               <div className="flex flex-col gap-2.5">
-                {groceryItems.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.45 + i * 0.08, ease }}
-                    className={`flex items-center gap-3 rounded-xl px-3 py-2 ${
-                      item.checked ? 'bg-white/10' : 'bg-white/5'
-                    }`}
-                  >
-                    <div
-                      className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
-                        item.checked
-                          ? 'bg-white/25'
-                          : 'border-[1.5px] border-white/30'
+                {groceryItems.map((item, i) => {
+                  const itemKey = item.label
+                    .toLowerCase()
+                    .replace(/\s+/g, '') as keyof typeof checkedItems
+                  const isChecked = checkedItems[itemKey]
+
+                  return (
+                    <motion.button
+                      key={item.label}
+                      onClick={() => toggleItem(itemKey)}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ delay: 0.45 + i * 0.08, ease }}
+                      className={`flex text-left items-center gap-3 rounded-xl px-3 py-2 cursor-pointer transition-colors duration-200 ${
+                        isChecked
+                          ? 'bg-white/10 hover:bg-white/15'
+                          : 'bg-white/5 hover:bg-white/10'
                       }`}
                     >
-                      {item.checked && (
-                        <motion.svg
-                          initial={{ scale: 0 }}
-                          animate={isInView ? { scale: 1 } : {}}
-                          transition={{
-                            delay: 0.55 + i * 0.08,
-                            type: 'spring',
-                            stiffness: 300,
-                          }}
-                          className="w-3 h-3 text-white"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                        >
-                          <path
-                            d="M2 6l3 3 5-5"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </motion.svg>
-                      )}
-                    </div>
-                    <span
-                      className={`text-sm font-medium flex-1 min-w-0 ${
-                        item.checked
-                          ? 'line-through text-white/40'
-                          : 'text-white/90'
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-white/30 shrink-0">
-                      {item.aisle}
-                    </span>
-                  </motion.div>
-                ))}
+                      <motion.div
+                        animate={{
+                          backgroundColor: isChecked
+                            ? 'rgba(255, 255, 255, 0.25)'
+                            : 'transparent',
+                          borderColor: isChecked
+                            ? 'rgba(255, 255, 255, 0.25)'
+                            : 'rgba(255, 255, 255, 0.3)',
+                        }}
+                        transition={{ duration: 0.2 }}
+                        className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
+                          isChecked
+                            ? 'bg-white/25'
+                            : 'border-[1.5px] border-white/30'
+                        }`}
+                      >
+                        {isChecked && (
+                          <motion.svg
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            exit={{ scale: 0 }}
+                            transition={{
+                              type: 'spring',
+                              stiffness: 300,
+                            }}
+                            className="w-3 h-3 text-white"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <path
+                              d="M2 6l3 3 5-5"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </motion.svg>
+                        )}
+                      </motion.div>
+                      <motion.span
+                        animate={{
+                          opacity: isChecked ? 0.4 : 0.9,
+                          textDecoration: isChecked ? 'line-through' : 'none',
+                        }}
+                        transition={{ duration: 0.2 }}
+                        className={`text-sm font-medium flex-1 min-w-0 ${
+                          isChecked
+                            ? 'line-through text-white/40'
+                            : 'text-white/90'
+                        }`}
+                      >
+                        {item.label}
+                      </motion.span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-white/30 shrink-0">
+                        {item.aisle}
+                      </span>
+                    </motion.button>
+                  )
+                })}
               </div>
             </div>
             <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
