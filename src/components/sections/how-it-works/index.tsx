@@ -1,1 +1,1 @@
-export { HowItWorksSwitcher as HowItWorks } from './HowItWorksSwitcher'
+export { HowItWorks09 as HowItWorks } from './HowItWorks09'

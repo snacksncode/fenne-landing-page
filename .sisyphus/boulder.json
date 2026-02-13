@@ -1,9 +1,7 @@
 {
-  "active_plan": "/Users/snacksncode/code/personal/fenne-site-3/.sisyphus/plans/how-it-works-variants.md",
-  "started_at": "2026-02-12T23:19:05.566Z",
-  "session_ids": [
-    "ses_3b34687d1ffeM6iJE9ndu36Tfh"
-  ],
-  "plan_name": "how-it-works-variants",
-  "agent": "atlas"
+  "active_plan": null,
+  "started_at": null,
+  "session_ids": [],
+  "plan_name": null,
+  "agent": null
 }
