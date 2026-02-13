@@ -1,11 +1,13 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import {
   motion,
   useScroll,
   useTransform,
   useInView,
+  AnimatePresence,
+  useMotionValueEvent,
   type MotionValue,
 } from 'motion/react'
 import {
@@ -208,6 +210,7 @@ export function HowItWorks09() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -216,9 +219,18 @@ export function HowItWorks09() {
 
   const ringProgress = useTransform(scrollYProgress, [0.35, 1], [0, 1])
 
+  // Calculate active step index based on ringProgress
+  const activeStepIndex = useTransform(ringProgress, (value) => {
+    return Math.min(Math.floor(value * steps.length), steps.length - 1)
+  })
+
+  // Track step changes
+  useMotionValueEvent(activeStepIndex, 'change', (latest) => {
+    setCurrentStepIndex(latest)
+  })
+
   const pulseScale = useTransform(ringProgress, [0.95, 1], [1, 1.03])
   const pulseOpacity = useTransform(ringProgress, [0.95, 1], [0, 0.4])
-  const centerOpacity = useTransform(ringProgress, [0.05, 0.2], [0.4, 1])
 
   const desktopDashOffset = useTransform(
     ringProgress,
@@ -281,8 +293,8 @@ export function HowItWorks09() {
                   x2="100%"
                   y2="100%"
                 >
-                  <stop offset="0%" stopColor="#fc7d42" />
-                  <stop offset="100%" stopColor="#ecaf32" />
+                  <stop offset="0%" stopColor="var(--color-orange-500)" />
+                  <stop offset="100%" stopColor="var(--color-orange-600)" />
                 </linearGradient>
               </defs>
 
@@ -323,21 +335,38 @@ export function HowItWorks09() {
               }}
             />
 
-            {/* Center content */}
-            <motion.div
-              className="absolute inset-0 flex flex-col items-center justify-center"
-              style={{ opacity: centerOpacity }}
-            >
-              <span className="text-4xl font-black text-brown-900 tracking-tight">
-                10 min
-              </span>
-              <span className="text-sm font-medium text-brown-700 mt-1">
-                per week
-              </span>
-              <span className="text-xs font-mono uppercase tracking-[0.15em] text-orange-500 mt-3">
-                and repeat
-              </span>
-            </motion.div>
+            {/* Center content - Dynamic step display */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <AnimatePresence mode="wait">
+                {steps[currentStepIndex] && (
+                  <motion.div
+                    key={`step-${currentStepIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0 flex flex-col items-center justify-center"
+                  >
+                    {(() => {
+                      const Icon = steps[currentStepIndex].icon
+                      return (
+                        <>
+                          <div className="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center mb-4">
+                            <Icon className="w-7 h-7 text-orange-600" strokeWidth={2} />
+                          </div>
+                          <h3 className="text-2xl font-black text-brown-900 tracking-tight">
+                            {steps[currentStepIndex].title}
+                          </h3>
+                          <p className="text-sm text-brown-700 mt-2 max-w-xs text-center leading-relaxed">
+                            {steps[currentStepIndex].description}
+                          </p>
+                        </>
+                      )
+                    })()}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Step icons at ring positions */}
             {steps.map((step, i) => (
@@ -371,8 +400,8 @@ export function HowItWorks09() {
                     x2="100%"
                     y2="100%"
                   >
-                    <stop offset="0%" stopColor="red" />
-                    <stop offset="100%" stopColor="blue" />
+                    <stop offset="0%" stopColor="var(--color-orange-500)" />
+                    <stop offset="100%" stopColor="var(--color-orange-600)" />
                   </linearGradient>
                 </defs>
 
@@ -412,20 +441,37 @@ export function HowItWorks09() {
                 }}
               />
 
-              <motion.div
-                className="absolute inset-0 flex flex-col items-center justify-center"
-                style={{ opacity: centerOpacity }}
-              >
-                <span className="text-3xl font-black text-brown-900 tracking-tight">
-                  10 min
-                </span>
-                <span className="text-xs font-medium text-brown-700 mt-1">
-                  per week
-                </span>
-                <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-orange-500 mt-2">
-                  and repeat
-                </span>
-              </motion.div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <AnimatePresence mode="wait">
+                  {steps[currentStepIndex] && (
+                    <motion.div
+                      key={`step-mobile-${currentStepIndex}`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.4 }}
+                      className="absolute inset-0 flex flex-col items-center justify-center px-4"
+                    >
+                      {(() => {
+                        const Icon = steps[currentStepIndex].icon
+                        return (
+                          <>
+                            <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center mb-3">
+                              <Icon className="w-6 h-6 text-orange-600" strokeWidth={2} />
+                            </div>
+                            <h3 className="text-xl font-black text-brown-900 tracking-tight">
+                              {steps[currentStepIndex].title}
+                            </h3>
+                            <p className="text-xs text-brown-700 mt-1.5 max-w-xs text-center leading-relaxed">
+                              {steps[currentStepIndex].description}
+                            </p>
+                          </>
+                        )
+                      })()}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Step cards -- mobile list */}
