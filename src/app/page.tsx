@@ -5,6 +5,7 @@ import { HowItWorks } from '@/components/sections/how-it-works'
 import { Footer } from '@/components/sections/Footer'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { CTA } from '@/components/sections/CTA'
+import { OpenSource } from '@/components/sections/OpenSource'
 
 export default function Home() {
   return (
@@ -18,10 +19,10 @@ export default function Home() {
       <Nav />
       <main id="main-content">
         <Hero />
-        {/* <ValueProp /> */}
         <BentoGrid />
         <HowItWorks />
         <Testimonials />
+        <OpenSource />
         <CTA />
       </main>
       <Footer />

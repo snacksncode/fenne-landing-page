@@ -17,6 +17,10 @@
   --font-mono: var(--font-space-mono);
 }
 
+.font-mono {
+  font-variant-ligatures: none;
+}
+
 body {
   font-family: var(--font-satoshi), sans-serif;
   background: var(--color-cream-50);

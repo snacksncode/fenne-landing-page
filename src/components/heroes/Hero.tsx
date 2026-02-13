@@ -372,7 +372,7 @@ export function Hero() {
       >
         <button
           onClick={() => scrollToSection('#features')}
-          className="flex items-center gap-2 rounded-full bg-brown-900 px-6 py-3 transition-transform hover:scale-105 text-sm font-semibold text-cream-100 shadow-lg"
+          className="flex items-center gap-2 rounded-full bg-cream-100 px-6 py-3 transition-transform hover:scale-105 text-sm font-semibold text-brown-900 shadow-lg"
         >
           <span>Learn more</span>
           <svg
