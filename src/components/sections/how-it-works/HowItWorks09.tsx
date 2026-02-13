@@ -318,17 +318,11 @@ export function HowItWorks09() {
               />
             </svg>
 
-            {/* Pulse ring on completion */}
             <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                border: '2px solid var(--color-orange-500)',
-                scale: pulseScale,
-                opacity: pulseOpacity,
-              }}
+              className="absolute border-2 border-orange-500 inset-0 rounded-full"
+              style={{ scale: pulseScale, opacity: pulseOpacity }}
             />
 
-            {/* Center content - Dynamic step display */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <AnimatePresence mode="wait">
                 {steps[currentStepIndex] && (
@@ -364,7 +358,6 @@ export function HowItWorks09() {
               </AnimatePresence>
             </div>
 
-            {/* Step icons at ring positions */}
             {steps.map((step, i) => (
               <StepIcon
                 key={step.title}

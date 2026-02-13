@@ -94,7 +94,7 @@ export function CTA() {
               className="app-badge group flex items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 text-brown-900 shadow-xl shadow-black/10 transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
             >
               <svg
-                className="h-7 w-7 flex-shrink-0"
+                className="h-7 w-7 shrink-0"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
