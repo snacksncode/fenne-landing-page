@@ -4,31 +4,21 @@ import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fenne.app'),
-  title: 'Fenne — Your Foxy Meal Companion',
-  description:
-    'Plan meals, shop smarter, and cook happier with Fenne. The coziest meal planning app for home cooks.',
+  metadataBase: new URL('https://fenneplanner.com'),
+  title: 'Fenne - Foxy Meal Companion',
+  description: 'Meal planning, minus the headache',
   icons: {
-    icon: '/icon.png',
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon.ico',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
   },
   openGraph: {
-    title: 'Fenne — Your Foxy Meal Companion',
-    description:
-      'Plan meals, shop smarter, and cook happier with Fenne. The coziest meal planning app for home cooks.',
-    images: ['/icon.png'],
-    url: 'https://fenne.app',
+    title: 'Fenne - Foxy Meal Companion',
+    description: 'Meal planning, minus the headache',
+    images: ['/favicon.png'],
+    url: 'https://fenneplanner.com',
     siteName: 'Fenne',
     locale: 'en_US',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Fenne — Your Foxy Meal Companion',
-    description:
-      'Plan meals, shop smarter, and cook happier with Fenne. The coziest meal planning app for home cooks.',
-    images: ['/icon.png'],
   },
 }
 
