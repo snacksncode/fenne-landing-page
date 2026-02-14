@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Image from 'next/image'
+import { useScrollTo } from '@/lib/scroll-utils'
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -10,26 +11,7 @@ const navLinks = [
   { label: 'Testimonials', href: '#testimonials' },
 ]
 
-function scrollToSection(href: string) {
-  const windowWithLenis = window as typeof window & {
-    lenis?: {
-      scrollTo: (target: string, options?: { offset?: number }) => void
-    }
-  }
-
-  if (windowWithLenis.lenis) {
-    windowWithLenis.lenis.scrollTo(href, { offset: -80 })
-  } else {
-    const el = document.querySelector(href)
-    el?.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
-function HamburgerIcon({
-  open,
-}: {
-  open: boolean
-}) {
+function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <div className="relative w-5 h-4 flex flex-col justify-between">
       <motion.span
@@ -55,6 +37,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeLink, setActiveLink] = useState<string | null>(null)
+  const { scrollTo } = useScrollTo()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -63,11 +46,11 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleNavClick = useCallback((href: string) => {
+  const handleNavClick = (href: string) => {
     setActiveLink(href)
     setMobileOpen(false)
-    scrollToSection(href)
-  }, [])
+    scrollTo(href)
+  }
 
   return (
     <nav
@@ -81,7 +64,7 @@ export function Nav() {
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <button
           onClick={() => {
-            scrollToSection('#hero')
+            scrollTo('#hero-float')
             setActiveLink(null)
           }}
           className="flex items-center gap-2.5 group"
@@ -109,11 +92,11 @@ export function Nav() {
               {activeLink === link.href ? (
                 <motion.div
                   layoutId="nav-underline"
-                  className="absolute bottom-0.5 left-3 right-3 h-[2px] rounded-full bg-orange-500"
+                  className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-orange-500"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               ) : (
-                <span className="absolute bottom-0.5 left-3 right-3 h-[2px] rounded-full bg-orange-500/40 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+                <span className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-orange-500/40 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
               )}
             </button>
           ))}
@@ -132,54 +115,52 @@ export function Nav() {
           className="md:hidden p-2 text-brown-900"
           aria-label="Toggle menu"
         >
-          <HamburgerIcon
-            open={mobileOpen}
-          />
+          <HamburgerIcon open={mobileOpen} />
         </button>
       </div>
 
       <AnimatePresence>
         {mobileOpen && (
-           <motion.div
-             data-testid="mobile-menu"
-             initial={{ height: 0, opacity: 0 }}
-             animate={{ height: 'auto', opacity: 1 }}
-             exit={{ height: 0, opacity: 0 }}
-             transition={{
-               duration: 0.3,
-               ease: [0.25, 0.1, 0.25, 1],
-             }}
-             className="md:hidden overflow-hidden bg-cream-50/95 backdrop-blur-xl border-t border-brown-900/5"
-           >
+          <motion.div
+            data-testid="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="md:hidden overflow-hidden bg-cream-50/95 backdrop-blur-xl border-t border-brown-900/5"
+          >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link, i) => (
-                 <motion.button
-                   key={link.href}
-                   initial={{ x: -16, opacity: 0 }}
-                   animate={{ x: 0, opacity: 1 }}
-                   transition={{
-                     delay: i * 0.05,
-                     duration: 0.25,
-                   }}
-                   onClick={() => handleNavClick(link.href)}
-                   className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg transition-colors hover:bg-brown-900/5"
-                 >
-                   {link.label}
-                 </motion.button>
+                <motion.button
+                  key={link.href}
+                  initial={{ x: -16, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{
+                    delay: i * 0.05,
+                    duration: 0.25,
+                  }}
+                  onClick={() => handleNavClick(link.href)}
+                  className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg transition-colors hover:bg-brown-900/5"
+                >
+                  {link.label}
+                </motion.button>
               ))}
 
-               <motion.button
-                 initial={{ x: -16, opacity: 0 }}
-                 animate={{ x: 0, opacity: 1 }}
-                 transition={{
-                   delay: navLinks.length * 0.05,
-                   duration: 0.25,
-                 }}
-                 onClick={() => handleNavClick('#cta')}
-                 className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center transition-all hover:bg-brown-800"
-               >
-                 Get Started
-               </motion.button>
+              <motion.button
+                initial={{ x: -16, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                  delay: navLinks.length * 0.05,
+                  duration: 0.25,
+                }}
+                onClick={() => handleNavClick('#cta')}
+                className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center transition-all hover:bg-brown-800"
+              >
+                Get Started
+              </motion.button>
             </div>
           </motion.div>
         )}

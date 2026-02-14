@@ -1,7 +1,7 @@
 # Privacy Policy for Fenne
 
-**Effective Date:** [EFFECTIVE_DATE]  
-**Last Updated:** [EFFECTIVE_DATE]
+**Effective Date:** 14 February 2026 \
+**Last Updated:** 14 February 2026
 
 ---
 

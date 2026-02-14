@@ -10,61 +10,18 @@ import {
   useMotionValueEvent,
   type MotionValue,
 } from 'motion/react'
-import {
-  BookPlus,
-  CalendarDays,
-  ListChecks,
-  ShoppingCart,
-  Utensils,
-} from 'lucide-react'
 import { easeOutQuint, easeOutCubic } from '@/lib/easings'
-import type { LucideIcon } from 'lucide-react'
+import { steps, type Step } from './steps'
+import { useScrollTo } from '@/lib/scroll-utils'
 
-interface Step {
-  icon: LucideIcon
-  title: string
-  description: string
-  time: string
-  angle: number
-}
+const STEP_ANGLES = steps.map((_, i) => -90 + (360 / steps.length) * i)
 
-const steps: Step[] = [
-  {
-    icon: BookPlus,
-    title: 'Add Recipes',
-    description: 'Save recipes you find online to your personal collection',
-    time: 'Ongoing',
-    angle: -90,
-  },
-  {
-    icon: CalendarDays,
-    title: 'Plan Your Week',
-    description: 'Assign meals to days in under 10 minutes',
-    time: '~10 min',
-    angle: -90 + 72,
-  },
-  {
-    icon: ListChecks,
-    title: 'Generate List',
-    description: 'One tap creates your grocery list, sorted by aisle',
-    time: '1 tap',
-    angle: -90 + 144,
-  },
-  {
-    icon: ShoppingCart,
-    title: 'Shop & Check Off',
-    description: 'Pull up your list at the store, check off items as you go',
-    time: 'At the store',
-    angle: -90 + 216,
-  },
-  {
-    icon: Utensils,
-    title: 'Cook',
-    description: "Open the app, see today's meal, start cooking",
-    time: 'Daily',
-    angle: -90 + 288,
-  },
-]
+const RING_SIZE = 340
+const STROKE_WIDTH = 12
+const RADIUS = (RING_SIZE - STROKE_WIDTH) / 2
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+
+// --- Helpers ---
 
 function getPosition(angleDeg: number, radius: number) {
   const rad = (angleDeg * Math.PI) / 180
@@ -78,32 +35,41 @@ function getStepThreshold(index: number) {
   return index / steps.length
 }
 
-const RING_SIZE = 340
-const STROKE_WIDTH = 12
-const RADIUS = (RING_SIZE - STROKE_WIDTH) / 2
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+// --- Shared Props ---
 
-const RING_SIZE_MOBILE = 260
-const STROKE_WIDTH_MOBILE = 10
-const RADIUS_MOBILE = (RING_SIZE_MOBILE - STROKE_WIDTH_MOBILE) / 2
-const CIRCUMFERENCE_MOBILE = 2 * Math.PI * RADIUS_MOBILE
+interface MobileVariantProps {
+  progress: MotionValue<number>
+  currentStepIndex: number
+  scrollToStep: (index: number) => void
+}
+
+// ============================================================
+// Desktop Components (unchanged behavior)
+// ============================================================
 
 function StepIcon({
   step,
   index,
+  angle,
   ringRadius,
   progress,
+  iconContainerSize = 44,
+  iconSize = 'w-5 h-5',
 }: {
   step: Step
   index: number
+  angle: number
   ringRadius: number
   progress: MotionValue<number>
+  iconContainerSize?: number
+  iconSize?: string
 }) {
   const threshold = getStepThreshold(index)
   const opacity = useTransform(progress, [threshold - 0.03, threshold], [0, 1])
   const scale = useTransform(progress, [threshold - 0.03, threshold], [0.5, 1])
-  const pos = getPosition(step.angle, ringRadius)
+  const pos = getPosition(angle, ringRadius)
   const Icon = step.icon
+  const half = iconContainerSize / 2
 
   return (
     <motion.div
@@ -111,59 +77,17 @@ function StepIcon({
       style={{
         left: '50%',
         top: '50%',
-        x: pos.x - 22,
-        y: pos.y - 22,
+        x: pos.x - half,
+        y: pos.y - half,
         opacity,
         scale,
       }}
     >
-      <div className="w-11 h-11 rounded-full bg-cream-100 border-2 border-orange-500 shadow-[0_2px_12px_rgba(249,149,77,0.25)] flex items-center justify-center">
-        <Icon className="w-5 h-5 text-orange-600" strokeWidth={2} />
-      </div>
-    </motion.div>
-  )
-}
-
-function MobileStepCard({
-  step,
-  icon: Icon,
-  threshold,
-  progress,
-}: {
-  step: Step
-  icon: LucideIcon
-  threshold: number
-  progress: MotionValue<number>
-}) {
-  const opacity = useTransform(
-    progress,
-    [threshold - 0.1, threshold],
-    [0.35, 1]
-  )
-  const cardScale = useTransform(
-    progress,
-    [threshold - 0.1, threshold],
-    [0.97, 1]
-  )
-
-  return (
-    <motion.div
-      className="flex items-start gap-4 rounded-xl bg-cream-100 border border-orange-100/60 p-4 shadow-[0_1px_8px_rgba(73,61,52,0.04)]"
-      style={{ opacity, scale: cardScale }}
-    >
-      <div className="w-9 h-9 shrink-0 rounded-lg bg-orange-500/10 flex items-center justify-center">
-        <Icon className="w-4 h-4 text-orange-600" strokeWidth={2} />
-      </div>
-      <div className="min-w-0">
-        <h4 className="font-sans text-sm font-bold text-brown-900">
-          {step.title}
-        </h4>
-        <p className="text-xs text-brown-700 leading-relaxed mt-0.5">
-          {step.description}
-        </p>
-        <span className="inline-block mt-1.5 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
-          {step.time}
-        </span>
+      <div
+        className="rounded-full bg-cream-100 border-2 border-orange-500 shadow-[0_2px_12px_rgba(249,149,77,0.25)] flex items-center justify-center"
+        style={{ width: iconContainerSize, height: iconContainerSize }}
+      >
+        <Icon className={`${iconSize} text-orange-600`} strokeWidth={2} />
       </div>
     </motion.div>
   )
@@ -171,12 +95,52 @@ function MobileStepCard({
 
 function DesktopStepLabel({
   step,
-  icon: Icon,
+  index,
+  progress,
+  onClick,
+}: {
+  step: Step
+  index: number
+  progress: MotionValue<number>
+  onClick?: () => void
+}) {
+  const threshold = getStepThreshold(index)
+  const opacity = useTransform(
+    progress,
+    [threshold - 0.08, threshold],
+    [0.3, 1]
+  )
+  const Icon = step.icon
+
+  return (
+    <div className="relative">
+      <motion.div className="inset-0 absolute bg-cream-50 -z-1" />
+      <motion.div className="md:justify-center flex" style={{ opacity }}>
+        <button
+          className="text-center px-3 lg:px-4 flex md:flex-col items-center cursor-pointer hover:scale-105 transition-transform duration-200"
+          onClick={onClick}
+        >
+          <div className="w-10 h-10 rounded-xl bg-orange-500/10 mb-3 flex items-center justify-center mx-auto">
+            <Icon className="w-5 h-5 text-orange-600" strokeWidth={2} />
+          </div>
+          <h4 className="font-sans text-sm font-bold text-brown-900">
+            {step.title}
+          </h4>
+          <span className="inline-block mt-1.5 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
+            {step.step}
+          </span>
+        </button>
+      </motion.div>
+    </div>
+  )
+}
+
+function VariantAStepItem({
+  step,
   index,
   progress,
 }: {
   step: Step
-  icon: LucideIcon
   index: number
   progress: MotionValue<number>
 }) {
@@ -186,23 +150,57 @@ function DesktopStepLabel({
     [threshold - 0.08, threshold],
     [0.3, 1]
   )
-  const y = useTransform(progress, [threshold - 0.08, threshold], [8, 0])
+  const Icon = step.icon
 
   return (
-    <motion.div className="text-center" style={{ opacity, y }}>
-      <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-5 h-5 text-orange-600" strokeWidth={2} />
+    <motion.div className="flex items-start gap-4">
+      <div className="relative z-10 w-10 aspect-square shrink-0 rounded-full bg-cream-100 shadow-[0_2px_12px_rgba(249,149,77,0.25)] flex items-center justify-center">
+        <motion.div
+          className="inset-0 absolute border-2 border-orange-500 rounded-full"
+          style={{ opacity }}
+        />
+        <motion.div style={{ opacity }}>
+          <Icon className="w-4 h-4 text-orange-600" strokeWidth={2} />
+        </motion.div>
       </div>
-      <h4 className="font-sans text-sm font-bold text-brown-900 mb-1">
-        {step.title}
-      </h4>
-      <p className="text-xs text-brown-700 leading-relaxed">
-        {step.description}
-      </p>
-      <span className="inline-block mt-2 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
-        {step.time}
-      </span>
+      <div className="pt-1 min-w-0">
+        <h4 className="font-sans text-sm font-bold text-brown-900">
+          {step.title}
+        </h4>
+        <p className="text-xs text-brown-700 leading-relaxed mt-0.5">
+          {step.description}
+        </p>
+        <span className="inline-block mt-1.5 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
+          {step.step}
+        </span>
+      </div>
     </motion.div>
+  )
+}
+
+function MobileVariant({ progress }: MobileVariantProps) {
+  const lineScaleY = useTransform(progress, [0, 1], [0, 1])
+
+  return (
+    <div className="w-full max-w-xs mx-auto">
+      <div className="relative">
+        <div className="absolute left-4.75 top-0 bottom-0 w-0.5 bg-orange-100 rounded-full" />
+        <motion.div
+          className="absolute left-4.75 bottom-0 top-1 w-0.5 bg-orange-500 rounded-full origin-top"
+          style={{ scaleY: lineScaleY }}
+        />
+        <div className="relative flex flex-col gap-6">
+          {steps.map((step, i) => (
+            <VariantAStepItem
+              key={step.title}
+              step={step}
+              index={i}
+              progress={progress}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -212,9 +210,9 @@ export function HowItWorks09() {
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const { scrollYProgress } = useScroll({ target: sectionRef })
+  const { scrollTo } = useScrollTo()
   const ringProgress = useTransform(scrollYProgress, [0, 0.95], [0, 1])
 
-  // Calculate active step index based on ringProgress
   const activeStepIndex = useTransform(ringProgress, (value) => {
     return Math.min(Math.floor(value * steps.length), steps.length - 1)
   })
@@ -223,6 +221,22 @@ export function HowItWorks09() {
     setCurrentStepIndex(latest)
   })
 
+  const scrollToStep = (stepIndex: number) => {
+    if (!sectionRef.current) return
+
+    const sectionRect = sectionRef.current.getBoundingClientRect()
+    const sectionTop = sectionRect.top + window.scrollY
+    const sectionHeight = sectionRef.current.offsetHeight
+    const viewportHeight = window.innerHeight
+    const scrollableDistance = sectionHeight - viewportHeight
+    const stepThreshold = stepIndex / steps.length
+    const targetScrollY =
+      sectionTop +
+      stepThreshold * 0.93 * scrollableDistance +
+      (stepIndex > 0 ? 50 : 0)
+    scrollTo(targetScrollY)
+  }
+
   const pulseScale = useTransform(ringProgress, [0.95, 1], [1, 1.03])
   const pulseOpacity = useTransform(ringProgress, [0.95, 1], [0, 0.4])
   const desktopDashOffset = useTransform(
@@ -230,17 +244,12 @@ export function HowItWorks09() {
     [0, 1],
     [CIRCUMFERENCE, 0]
   )
-  const mobileDashOffset = useTransform(
-    ringProgress,
-    [0, 1],
-    [CIRCUMFERENCE_MOBILE, 0]
-  )
 
   return (
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative h-[400vh]"
+      className="relative h-[300vh] md:h-[400vh]"
       style={{ background: 'var(--color-cream-50)' }}
     >
       <div className="sticky h-screen flex flex-col items-center justify-center top-0">
@@ -266,10 +275,17 @@ export function HowItWorks09() {
           </motion.h2>
         </div>
 
-        {/* Ring + Icons -- Desktop */}
-        <div className="relative mx-auto max-w-5xl px-6">
+        <div className="md:hidden w-full px-6">
+          <MobileVariant
+            progress={ringProgress}
+            currentStepIndex={currentStepIndex}
+            scrollToStep={scrollToStep}
+          />
+        </div>
+
+        <div className="hidden md:block relative mx-auto max-w-5xl px-6">
           <div
-            className="relative mx-auto hidden md:block"
+            className="relative mx-auto"
             style={{ width: RING_SIZE, height: RING_SIZE }}
           >
             <svg
@@ -363,140 +379,24 @@ export function HowItWorks09() {
                 key={step.title}
                 step={step}
                 index={i}
+                angle={STEP_ANGLES[i]}
                 ringRadius={RADIUS}
                 progress={ringProgress}
               />
             ))}
           </div>
 
-          {/* Ring -- Mobile */}
-          <div className="md:hidden flex flex-col items-center">
-            <div
-              className="relative mx-auto mb-10"
-              style={{ width: RING_SIZE_MOBILE, height: RING_SIZE_MOBILE }}
-            >
-              <svg
-                className="absolute inset-0"
-                width={RING_SIZE_MOBILE}
-                height={RING_SIZE_MOBILE}
-                viewBox={`0 0 ${RING_SIZE_MOBILE} ${RING_SIZE_MOBILE}`}
-              >
-                <defs>
-                  <linearGradient
-                    id="ring-gradient-09-m"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" stopColor="var(--color-orange-500)" />
-                    <stop offset="100%" stopColor="var(--color-orange-600)" />
-                  </linearGradient>
-                </defs>
-
-                <circle
-                  cx={RING_SIZE_MOBILE / 2}
-                  cy={RING_SIZE_MOBILE / 2}
-                  r={RADIUS_MOBILE}
-                  fill="none"
-                  stroke="var(--color-orange-100)"
-                  strokeWidth={STROKE_WIDTH_MOBILE}
-                  opacity={0.5}
-                />
-
-                <motion.circle
-                  cx={RING_SIZE_MOBILE / 2}
-                  cy={RING_SIZE_MOBILE / 2}
-                  r={RADIUS_MOBILE}
-                  fill="none"
-                  stroke="url(#ring-gradient-09-m)"
-                  strokeWidth={STROKE_WIDTH_MOBILE}
-                  strokeLinecap="round"
-                  strokeDasharray={CIRCUMFERENCE_MOBILE}
-                  style={{
-                    strokeDashoffset: mobileDashOffset,
-                    rotate: '-90deg',
-                    transformOrigin: 'center',
-                  }}
-                />
-              </svg>
-
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  border: '2px solid var(--color-orange-500)',
-                  scale: pulseScale,
-                  opacity: pulseOpacity,
-                }}
+          <div className="grid grid-cols-5 gap-4 lg:gap-8 mt-14 md:max-w-4xl relative text-gray-300">
+            <div className="top-1/2 -translate-y-1/2 absolute left-0 right-0 -z-10 h-0.5 bg-[repeating-linear-gradient(90deg,#d1d5dc,#d1d5dc_4px,transparent_4px,transparent_8px)]" />
+            {steps.map((step, i) => (
+              <DesktopStepLabel
+                key={step.title}
+                step={step}
+                index={i}
+                progress={ringProgress}
+                onClick={() => scrollToStep(i)}
               />
-
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <AnimatePresence mode="wait">
-                  {steps[currentStepIndex] && (
-                    <motion.div
-                      key={`step-mobile-${currentStepIndex}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute inset-0 flex flex-col items-center justify-center px-4"
-                    >
-                      {(() => {
-                        const Icon = steps[currentStepIndex].icon
-                        return (
-                          <>
-                            <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center mb-3">
-                              <Icon
-                                className="w-6 h-6 text-orange-600"
-                                strokeWidth={2}
-                              />
-                            </div>
-                            <h3 className="text-xl font-black text-brown-900 tracking-tight">
-                              {steps[currentStepIndex].title}
-                            </h3>
-                            <p className="text-xs text-brown-700 mt-1.5 max-w-xs text-center leading-relaxed">
-                              {steps[currentStepIndex].description}
-                            </p>
-                          </>
-                        )
-                      })()}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Step cards -- mobile list */}
-            <div className="w-full max-w-sm space-y-3 px-2">
-              {steps.map((step, i) => {
-                const Icon = step.icon
-                const threshold = getStepThreshold(i)
-                return (
-                  <MobileStepCard
-                    key={step.title}
-                    step={step}
-                    icon={Icon}
-                    threshold={threshold}
-                    progress={ringProgress}
-                  />
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Step labels -- Desktop (below ring) */}
-          <div className="hidden md:grid grid-cols-5 gap-4 mt-14 max-w-4xl mx-auto">
-            {steps.map((step, i) => {
-              const Icon = step.icon
-              return (
-                <DesktopStepLabel
-                  key={step.title}
-                  step={step}
-                  icon={Icon}
-                  index={i}
-                  progress={ringProgress}
-                />
-              )
-            })}
+            ))}
           </div>
         </div>
       </div>

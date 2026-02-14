@@ -21,7 +21,7 @@ export default async function PrivacyPage() {
   const contentHtml = result.toString()
 
   return (
-    <main className="min-h-screen bg-cream-50 py-16 px-6 md:py-24">
+    <main className="min-h-screen bg-cream-50 p-6">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 border-b border-orange-100 pb-6">
           <Link
@@ -39,8 +39,11 @@ export default async function PrivacyPage() {
 
         <footer className="mt-16 pt-8 border-t border-orange-100 text-center">
           <p className="text-brown-700 text-sm">
-            © 2025 Fenne •{' '}
-            <Link href="/" className="text-orange-600 hover:text-orange-700 underline">
+            © {new Date().getFullYear()} Fenne •{' '}
+            <Link
+              href="/"
+              className="text-orange-600 hover:text-orange-700 underline"
+            >
               Back to home
             </Link>
           </p>

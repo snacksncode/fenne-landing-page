@@ -6,49 +6,49 @@ import { easeOutQuint } from '@/lib/easings'
 
 const testimonials = [
   {
-    name: 'Sarah M.',
+    name: 'James',
     review:
-      'Fenne turned my chaotic meal prep into something I actually enjoy. The fox approves!',
+      'We used to have the 6pm panic every night. Now we sit down Sunday with coffee and plan in 10 minutes. The fox is super cute',
     stars: 5,
     rotate: -2,
-    accent: true,
-  },
-  {
-    name: 'James K.',
-    review:
-      "I used to dread grocery shopping. Now I just follow Fenne's list and I'm done in 15 min.",
-    stars: 5,
-    rotate: 1.5,
     accent: false,
   },
   {
-    name: 'Priya R.',
+    name: 'Friendo',
     review:
-      "My family thinks I've become a chef. Really it's all Fenne doing the heavy lifting.",
+      "Had like 50 recipe tabs open as 'cook later.' Finally copy pasted them into Fenne and typed out the ingredients. Took an hour to migrate but now I actually cook them instead of hoarding links.",
+    stars: 5,
+    rotate: 1.5,
+    accent: true,
+  },
+  {
+    name: 'Alex',
+    review:
+      'I set Tuesday as my shopping day and my list sorts by aisle automatically. In and out of Lidl in 12 minutes. No more circling back because I forgot the garlic.',
     stars: 5,
     rotate: -1,
     accent: false,
   },
   {
-    name: 'Alex T.',
+    name: 'Sofia',
     review:
-      'The weekly planner is a game changer. I save hours every Sunday.',
+      "Thought I'd delete this in a week like every other app. It's been 2 months and I actually look forward to Sunday planning. It's just... simple",
     stars: 5,
     rotate: 2,
     accent: true,
   },
   {
-    name: 'Maria L.',
+    name: 'Casey',
     review:
-      'Finally an app that gets meal planning right. Simple, beautiful, and actually useful.',
+      "No AI pushing keto bowls I didn't ask for. Just my recipes, my week, and my grocery list organized how I set it up.",
     stars: 5,
     rotate: -1.5,
     accent: false,
   },
   {
-    name: 'David C.',
+    name: 'Another friendo',
     review:
-      "I've tried every meal planner out there. Fenne is the one that stuck.",
+      "I plan Sunday, my boyfriend grabs groceries Tuesday after work on his way home. We both see the list update live - he checks off items at the store, I see it clear at home. No more 'did you get milk?' texts.",
     stars: 5,
     rotate: 1,
     accent: true,
@@ -107,7 +107,7 @@ export function Testimonials() {
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")',
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
           backgroundSize: '128px 128px',
         }}
       />
@@ -115,10 +115,10 @@ export function Testimonials() {
       <div
         className="pointer-events-none absolute -left-32 top-1/4 h-[400px] w-[400px] rounded-full opacity-[0.15]"
         style={{
-          background: 'radial-gradient(circle, var(--color-orange-500) 0%, transparent 70%)',
+          background:
+            'radial-gradient(circle, var(--color-orange-500) 0%, transparent 70%)',
         }}
       />
-
 
       <div className="relative mx-auto max-w-6xl px-6">
         <motion.h2
@@ -138,13 +138,13 @@ export function Testimonials() {
           initial="hidden"
           animate={cardsInView ? 'visible' : 'hidden'}
         >
-           {testimonials.map((t, i) => (
-             <motion.div
-               key={t.name}
-               className="testimonial-card relative"
-               variants={cardVariants}
-             >
-               <div
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={t.name}
+              className="testimonial-card relative"
+              variants={cardVariants}
+            >
+              <div
                 className={`relative rounded-3xl px-7 py-6 md:px-8 md:py-7 transition-all duration-300 hover:scale-[1.03] ${
                   t.accent
                     ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/20'
@@ -154,17 +154,35 @@ export function Testimonials() {
                   transform: `rotate(${t.rotate}deg)`,
                 }}
               >
-                <div className={`mb-3 flex gap-0.5 ${t.accent ? 'text-white' : 'text-orange-500'}`} role="img" aria-label="5 out of 5 stars">
+                {/* decorative quote */}
+                <span
+                  className={`pointer-events-none absolute top-4 right-5 font-serif text-[6rem] leading-none select-none ${
+                    t.accent ? 'text-brown-900/20' : 'text-brown-900/10'
+                  }`}
+                  aria-hidden="true"
+                >
+                  ”
+                </span>
+
+                <div
+                  className={`mb-3 flex gap-0.5 ${t.accent ? 'text-white' : 'text-orange-500'}`}
+                  role="img"
+                  aria-label="5 out of 5 stars"
+                >
                   {Array.from({ length: t.stars }).map((_, si) => (
                     <StarIcon key={si} />
                   ))}
                 </div>
 
-                <p className={`mb-4 font-sans text-base leading-relaxed md:text-lg ${t.accent ? 'text-white/90' : 'text-brown-800'}`}>
-                  &ldquo;{t.review}&rdquo;
+                <p
+                  className={`mb-4 font-sans text-base leading-relaxed ${t.accent ? 'text-cream-100' : 'text-brown-900'}`}
+                >
+                  {t.review}
                 </p>
 
-                <p className={`font-sans text-sm font-bold tracking-wide ${t.accent ? 'text-white/70' : 'text-brown-700'}`}>
+                <p
+                  className={`font-sans text-sm font-bold tracking-wide ${t.accent ? 'text-cream-50' : 'text-brown-800'}`}
+                >
                   {t.name} · Beta Tester
                 </p>
               </div>
