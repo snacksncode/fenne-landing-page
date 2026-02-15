@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Fenne - Foxy Meal Companion',
     description: 'Meal planning, minus the headache',
-    images: ['/favicon.png'],
     url: 'https://fenneplanner.com',
     siteName: 'Fenne',
     locale: 'en_US',
