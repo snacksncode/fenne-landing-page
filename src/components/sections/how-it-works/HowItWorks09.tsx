@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, type RefObject } from 'react'
 import {
   motion,
   useScroll,
@@ -33,14 +33,6 @@ function getPosition(angleDeg: number, radius: number) {
 
 function getStepThreshold(index: number) {
   return index / steps.length
-}
-
-// --- Shared Props ---
-
-interface MobileVariantProps {
-  progress: MotionValue<number>
-  currentStepIndex: number
-  scrollToStep: (index: number) => void
 }
 
 // ============================================================
@@ -135,72 +127,83 @@ function DesktopStepLabel({
   )
 }
 
-function VariantAStepItem({
-  step,
-  index,
-  progress,
-}: {
-  step: Step
-  index: number
-  progress: MotionValue<number>
-}) {
-  const threshold = getStepThreshold(index)
-  const opacity = useTransform(
-    progress,
-    [threshold - 0.08, threshold],
-    [0.3, 1]
-  )
-  const Icon = step.icon
+// ============================================================
+// Shared Components
+// ============================================================
 
+function SectionHeader({
+  titleRef,
+  titleInView,
+}: {
+  titleRef: RefObject<HTMLDivElement | null>
+  titleInView: boolean
+}) {
   return (
-    <motion.div className="flex items-start gap-4">
-      <div className="relative z-10 w-10 aspect-square shrink-0 rounded-full bg-cream-100 shadow-[0_2px_12px_rgba(249,149,77,0.25)] flex items-center justify-center">
-        <motion.div
-          className="inset-0 absolute border-2 border-orange-500 rounded-full"
-          style={{ opacity }}
-        />
-        <motion.div style={{ opacity }}>
-          <Icon className="w-4 h-4 text-orange-600" strokeWidth={2} />
-        </motion.div>
-      </div>
-      <div className="pt-1 min-w-0">
-        <h4 className="font-sans text-sm font-bold text-brown-900">
-          {step.title}
-        </h4>
-        <p className="text-xs text-brown-700 leading-relaxed mt-0.5">
-          {step.description}
-        </p>
-        <span className="inline-block mt-1.5 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
-          {step.step}
-        </span>
-      </div>
-    </motion.div>
+    <div
+      ref={titleRef}
+      className="relative mx-auto max-w-5xl px-6 text-center mb-12 md:mb-20"
+    >
+      <motion.p
+        className="text-sm font-bold uppercase mb-1 tracking-[0.2em] text-orange-500 md:mb-4 font-mono"
+        initial={{ opacity: 0, y: 20 }}
+        animate={titleInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: easeOutCubic }}
+      >
+        How it works
+      </motion.p>
+      <motion.h2
+        className="font-sans text-3xl md:text-5xl font-black tracking-tight text-brown-900"
+        initial={{ opacity: 0, y: 30 }}
+        animate={titleInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.9, ease: easeOutQuint, delay: 0.1 }}
+      >
+        One complete cycle
+      </motion.h2>
+    </div>
   )
 }
 
-function MobileVariant({ progress }: MobileVariantProps) {
-  const lineScaleY = useTransform(progress, [0, 1], [0, 1])
+function MobileStepCardV3({ step, index }: { step: Step; index: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-10% 0px' })
+  const Icon = step.icon
 
   return (
-    <div className="w-full max-w-xs mx-auto">
-      <div className="relative">
-        <div className="absolute left-4.75 top-0 bottom-0 w-0.5 bg-orange-100 rounded-full" />
-        <motion.div
-          className="absolute left-4.75 bottom-0 top-1 w-0.5 bg-orange-500 rounded-full origin-top"
-          style={{ scaleY: lineScaleY }}
-        />
-        <div className="relative flex flex-col gap-6">
-          {steps.map((step, i) => (
-            <VariantAStepItem
-              key={step.title}
-              step={step}
-              index={i}
-              progress={progress}
-            />
-          ))}
-        </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20, scale: 0.975 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.5, ease: easeOutCubic, delay: 0.05 }}
+      className="relative pt-8"
+    >
+      <div
+        className="absolute left-6 top-0 z-10 w-16 h-16 rounded-2xl flex items-center justify-center"
+        style={{
+          background:
+            'linear-gradient(135deg, var(--color-orange-500), var(--color-orange-600))',
+          boxShadow:
+            '0 8px 28px rgba(249,149,77,0.35), 0 2px 8px rgba(249,149,77,0.2)',
+        }}
+      >
+        <Icon className="w-8 h-8 text-white" strokeWidth={1.8} />
       </div>
-    </div>
+
+      <div className="relative rounded-2xl bg-white border border-brown-900/6 pt-12 pb-5 px-6 shadow-[0_4px_24px_rgba(73,61,52,0.06)] overflow-hidden">
+        <span className="absolute right-2 -top-2 text-[110px] font-black leading-none font-mono select-none pointer-events-none text-orange-500/5">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+
+        <span className="relative text-[10px] font-bold font-mono uppercase tracking-[0.2em] text-orange-500/70">
+          {step.step}
+        </span>
+        <h4 className="relative text-lg font-bold text-brown-900 leading-tight mt-0.5">
+          {step.title}
+        </h4>
+        <p className="relative text-base text-brown-800 text-pretty max-w-3/4 mt-1.5">
+          {step.description}
+        </p>
+      </div>
+    </motion.div>
   )
 }
 
@@ -208,6 +211,11 @@ export function HowItWorks09() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
+  const mobileTitleRef = useRef<HTMLDivElement>(null)
+  const mobileTitleInView = useInView(mobileTitleRef, {
+    once: true,
+    margin: '-15% 0px',
+  })
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const { scrollYProgress } = useScroll({ target: sectionRef })
   const { scrollTo } = useScrollTo()
@@ -249,41 +257,26 @@ export function HowItWorks09() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative h-[300vh] md:h-[400vh]"
+      className="relative md:h-[400vh]"
       style={{ background: 'var(--color-cream-50)' }}
     >
-      <div className="sticky h-screen flex flex-col items-center justify-center top-0">
-        <div
-          ref={titleRef}
-          className="relative mx-auto max-w-5xl px-6 text-center mb-16 md:mb-20"
-        >
-          <motion.p
-            className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500 mb-4 font-mono"
-            initial={{ opacity: 0, y: 20 }}
-            animate={titleInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease: easeOutCubic }}
-          >
-            How it works
-          </motion.p>
-          <motion.h2
-            className="font-sans text-4xl md:text-5xl font-black tracking-tight text-brown-900"
-            initial={{ opacity: 0, y: 30 }}
-            animate={titleInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: easeOutQuint, delay: 0.1 }}
-          >
-            One complete cycle
-          </motion.h2>
-        </div>
+      <div className="md:hidden pb-20 p-6">
+        <SectionHeader
+          titleRef={mobileTitleRef}
+          titleInView={mobileTitleInView}
+        />
 
-        <div className="md:hidden w-full px-6">
-          <MobileVariant
-            progress={ringProgress}
-            currentStepIndex={currentStepIndex}
-            scrollToStep={scrollToStep}
-          />
+        <div className="flex mt-12 flex-col gap-4 max-w-md mx-auto">
+          {steps.map((step, i) => (
+            <MobileStepCardV3 key={step.title} step={step} index={i} />
+          ))}
         </div>
+      </div>
 
-        <div className="hidden md:block relative mx-auto max-w-5xl px-6">
+      <div className="hidden md:flex sticky h-[calc(100vh-64px)] flex-col items-center justify-center top-16">
+        <SectionHeader titleRef={titleRef} titleInView={titleInView} />
+
+        <div className="relative mx-auto max-w-5xl px-6">
           <div
             className="relative mx-auto"
             style={{ width: RING_SIZE, height: RING_SIZE }}

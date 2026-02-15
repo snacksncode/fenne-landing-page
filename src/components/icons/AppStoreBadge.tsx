@@ -1,12 +1,14 @@
 'use client'
 
+import Link from 'next/link'
+
 interface AppStoreBadgeProps {
   width?: number
 }
 
 export function AppStoreBadge({ width = 150 }: AppStoreBadgeProps) {
   return (
-    <a
+    <Link
       href="https://apps.apple.com/app/fenne-meal-planner/id6739899701"
       className="transition-all hover:scale-105 active:scale-95"
     >
@@ -132,6 +134,6 @@ export function AppStoreBadge({ width = 150 }: AppStoreBadgeProps) {
           </g>
         </g>
       </svg>
-    </a>
+    </Link>
   )
 }

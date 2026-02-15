@@ -138,7 +138,7 @@ export function Hero() {
             className="float-hero-word inline-block"
           />
           <br />
-          <span className="text-orange-500">
+          <span className="text-orange-500 max-md:mt-1 inline-block">
             <AnimatedWords
               text="What’s for dinner?"
               className="float-hero-word inline-block"

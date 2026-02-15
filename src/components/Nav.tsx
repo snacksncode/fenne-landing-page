@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Image from 'next/image'
+import { Menu, X } from 'lucide-react'
 import { useScrollTo } from '@/lib/scroll-utils'
 
 const navLinks = [
@@ -13,22 +14,12 @@ const navLinks = [
 
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
-    <div className="relative w-5 h-4 flex flex-col justify-between">
-      <motion.span
-        className="block h-[1.5px] w-full bg-current origin-left"
-        animate={open ? { rotate: 45, y: -1, x: 1 } : { rotate: 0, y: 0, x: 0 }}
-        transition={{ duration: 0.3 }}
-      />
-      <motion.span
-        className="block h-[1.5px] w-full bg-current"
-        animate={open ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      <motion.span
-        className="block h-[1.5px] w-full bg-current origin-left"
-        animate={open ? { rotate: -45, y: 1, x: 1 } : { rotate: 0, y: 0, x: 0 }}
-        transition={{ duration: 0.3 }}
-      />
+    <div className="relative">
+      {open ? (
+        <X size={28} strokeWidth={1.75} />
+      ) : (
+        <Menu size={28} strokeWidth={1.75} />
+      )}
     </div>
   )
 }
@@ -143,7 +134,7 @@ export function Nav() {
                     duration: 0.25,
                   }}
                   onClick={() => handleNavClick(link.href)}
-                  className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg transition-colors hover:bg-brown-900/5"
+                  className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg"
                 >
                   {link.label}
                 </motion.button>
@@ -157,7 +148,7 @@ export function Nav() {
                   duration: 0.25,
                 }}
                 onClick={() => handleNavClick('#cta')}
-                className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center transition-all hover:bg-brown-800"
+                className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center"
               >
                 Get Started
               </motion.button>

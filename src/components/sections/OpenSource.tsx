@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
 import { Github, ExternalLink, Smartphone, Server } from 'lucide-react'
 import { easeOutCubic, easeOutQuint } from '@/lib/easings'
+import Link from 'next/link'
 
 const repos = [
   {
@@ -57,7 +58,7 @@ export function OpenSource() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: easeOutQuint }}
         >
-          <h2 className="font-mono text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-cream-50">
+          <h2 className="font-mono text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-cream-50">
             <span className="text-orange-500">{'>'}</span> We&apos;re
             open-source
           </h2>
@@ -78,7 +79,7 @@ export function OpenSource() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 + i * 0.15, ease: easeOutCubic }}
               >
-                <a
+                <Link
                   href={repo.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -143,7 +144,7 @@ export function OpenSource() {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
               </motion.div>
             )
           })}

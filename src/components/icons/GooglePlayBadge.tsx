@@ -1,12 +1,14 @@
 'use client'
 
+import Link from 'next/link'
+
 interface GooglePlayBadgeProps {
   width?: number
 }
 
 export function GooglePlayBadge({ width = 150 }: GooglePlayBadgeProps) {
   return (
-    <a
+    <Link
       href="https://play.google.com/store/apps/details?id=app.fenne"
       className="transition-all hover:scale-105 active:scale-95"
     >
@@ -68,6 +70,6 @@ export function GooglePlayBadge({ width = 150 }: GooglePlayBadgeProps) {
           strokeWidth=".26666"
         />
       </svg>
-    </a>
+    </Link>
   )
 }

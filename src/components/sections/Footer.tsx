@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 const footerLinks = [
   { label: 'Privacy', href: '/legal/privacy' },
@@ -41,13 +42,13 @@ export function Footer() {
             </span>
             <div className="flex items-center gap-6">
               {footerLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   className="transition-colors duration-200 hover:text-cream-50/70"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

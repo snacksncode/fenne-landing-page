@@ -1,12 +1,14 @@
 'use client'
 
+import Link from 'next/link'
+
 interface GooglePlayBadgeProps {
   width?: number
 }
 
 export function ItchBadge({ width = 150 }: GooglePlayBadgeProps) {
   return (
-    <a href="#" className="transition-all hover:scale-105 active:scale-95">
+    <Link href="#" className="transition-all hover:scale-105 active:scale-95">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={width}
@@ -22,6 +24,6 @@ export function ItchBadge({ width = 150 }: GooglePlayBadgeProps) {
           fill="#fff"
         />
       </svg>
-    </a>
+    </Link>
   )
 }
