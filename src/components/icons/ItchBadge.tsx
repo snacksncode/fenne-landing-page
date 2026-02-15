@@ -12,7 +12,7 @@ export function ItchBadge({ width = 150 }: GooglePlayBadgeProps) {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={width}
-        viewBox="0 0 730 228"
+        viewBox="0 0 740 230"
         fill="none"
       >
         <path
