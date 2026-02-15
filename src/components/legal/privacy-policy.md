@@ -9,7 +9,7 @@
 
 Fenne is a meal planning mobile application available on iOS and Android. The app helps you plan meals, create recipes, manage grocery lists, and coordinate with your family members.
 
-Fenne is operated by Illia Dolotov, an individual developer based in the European Union.
+Fenne is operated by Ilya Dolotov, an individual developer based in the European Union.
 
 If you have any questions about this privacy policy or how we handle your data, please contact us at **contact@fenneplanner.com**.
 
@@ -19,10 +19,10 @@ If you have any questions about this privacy policy or how we handle your data, 
 
 Under the General Data Protection Regulation (GDPR), the data controller for your personal information is:
 
-**Illia Dolotov**  
+**Ilya Dolotov**  
 Email: **contact@fenneplanner.com**
 
-This means Illia Dolotov is responsible for deciding how your personal data is collected, used, and protected.
+This means Ilya Dolotov is responsible for deciding how your personal data is collected, used, and protected.
 
 ---
 
@@ -270,7 +270,7 @@ If we implement this feature:
 If you have any questions, concerns, or requests regarding this privacy policy or how we handle your personal data, please contact us:
 
 **Email:** contact@fenneplanner.com  
-**Data Controller:** Illia Dolotov
+**Data Controller:** Ilya Dolotov
 
 We will respond to your inquiry as quickly as possible, typically within 30 days.
 

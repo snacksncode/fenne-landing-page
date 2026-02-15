@@ -9,7 +9,7 @@
 
 These Terms of Service ("Terms") govern your use of Fenne, a meal planning mobile application available on iOS and Android. Fenne helps you plan meals, create recipes, manage grocery lists, and coordinate with your family members.
 
-Fenne is operated by Illia Dolotov, an individual developer based in the European Union.
+Fenne is operated by Ilya Dolotov, an individual developer based in the European Union.
 
 By using Fenne, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the service.
 
@@ -175,7 +175,7 @@ We are not liable for any loss, inconvenience, or damage caused by service inter
 
 ### Fenne's Intellectual Property
 
-The Fenne app, service, design, branding, logos, and all related intellectual property are owned by Illia Dolotov and are protected by copyright, trademark, and other intellectual property laws.
+The Fenne app, service, design, branding, logos, and all related intellectual property are owned by Ilya Dolotov and are protected by copyright, trademark, and other intellectual property laws.
 
 ### Your Content
 
@@ -183,7 +183,7 @@ You retain ownership of your content, as described in Section 4.
 
 ### Trademarks
 
-"Fenne" and related marks, logos, and branding are trademarks of Illia Dolotov. You may not use these trademarks without prior written permission.
+"Fenne" and related marks, logos, and branding are trademarks of Ilya Dolotov. You may not use these trademarks without prior written permission.
 
 ### Restrictions
 
@@ -328,7 +328,7 @@ The introduction of paid features will not affect the availability of core free 
 If you have any questions, concerns, or requests regarding these Terms of Service, please contact us:
 
 **Email:** contact@fenneplanner.com  
-**Operator:** Illia Dolotov
+**Operator:** Ilya Dolotov
 
 We will respond to your inquiry as quickly as possible.
 
