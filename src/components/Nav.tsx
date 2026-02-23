@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Open Source', href: '#open-source' },
 ]
 
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -27,8 +28,11 @@ function HamburgerIcon({ open }: { open: boolean }) {
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [activeLink, setActiveLink] = useState<string | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const { scrollTo } = useScrollTo()
+  const isScrollingTo = useRef(false)
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const [underline, setUnderline] = useState({ x: 0, width: 0 })
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -37,10 +41,59 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.href.replace('#', ''))
+    const observers: IntersectionObserver[] = []
+    const visibleRatios: Record<string, number> = {}
+
+    const pickActive = () => {
+      if (isScrollingTo.current) return
+      let best: number | null = null
+      let bestRatio = 0
+      for (let i = 0; i < sectionIds.length; i++) {
+        const ratio = visibleRatios[sectionIds[i]] ?? 0
+        if (ratio > bestRatio) {
+          bestRatio = ratio
+          best = i
+        }
+      }
+      setActiveIndex(bestRatio > 0.15 ? best : null)
+    }
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id)
+      if (!el) continue
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          visibleRatios[id] = entry.intersectionRatio
+          pickActive()
+        },
+        { threshold: Array.from({ length: 101 }, (_, i) => i / 100) }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    }
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [])
+
+  useEffect(() => {
+    if (activeIndex === null) return
+    const btn = buttonRefs.current[activeIndex]
+    if (!btn) return
+    const pad = 12
+    setUnderline({ x: btn.offsetLeft + pad, width: btn.offsetWidth - pad * 2 })
+  }, [activeIndex])
+
   const handleNavClick = (href: string) => {
-    setActiveLink(href)
+    const index = navLinks.findIndex((l) => l.href === href)
+    setActiveIndex(index >= 0 ? index : null)
     setMobileOpen(false)
+    isScrollingTo.current = true
     scrollTo(href)
+    setTimeout(() => {
+      isScrollingTo.current = false
+    }, 1200)
   }
 
   return (
@@ -56,7 +109,7 @@ export function Nav() {
         <button
           onClick={() => {
             scrollTo('#hero-float')
-            setActiveLink(null)
+            setActiveIndex(null)
           }}
           className="flex items-center gap-2.5 group"
         >
@@ -72,21 +125,26 @@ export function Nav() {
           </span>
         </button>
 
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+        <div className="hidden md:flex items-center gap-1 relative">
+          <motion.div
+            className="absolute bottom-0.5 left-0 h-0.5 rounded-full bg-orange-500 pointer-events-none"
+            animate={{
+              opacity: activeIndex !== null ? 1 : 0,
+              x: underline.x,
+              width: underline.width || 1,
+            }}
+            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+          />
+
+          {navLinks.map((link, i) => (
             <button
               key={link.href}
+              ref={(el) => { buttonRefs.current[i] = el }}
               onClick={() => handleNavClick(link.href)}
               className="group relative px-4 py-2 text-sm font-medium text-brown-800 transition-colors duration-200 hover:text-brown-900"
             >
               {link.label}
-              {activeLink === link.href ? (
-                <motion.div
-                  layoutId="nav-underline"
-                  className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-orange-500"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              ) : (
+              {activeIndex !== i && (
                 <span className="absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-orange-500/40 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
               )}
             </button>

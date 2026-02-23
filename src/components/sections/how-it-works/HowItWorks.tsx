@@ -113,16 +113,16 @@ function DesktopStepLabel({
           className="text-center px-3 lg:px-4 flex md:flex-col items-center cursor-pointer hover:scale-105 transition-transform"
           onClick={onClick}
         >
-          <div className="p-2 h-12 w-20 rounded-full bg-orange-500 mb-3 flex items-center justify-center mx-auto">
+          <div className="p-2 h-12 w-20 rounded-full bg-orange-500/10 mb-3 flex items-center justify-center mx-auto">
             <Icon
-              className="w-8 aspect-square text-cream-100"
+              className="w-8 aspect-square text-orange-600"
               strokeWidth={2}
             />
           </div>
-          <h4 className="font-sans text-base font-bold text-brown-900">
+          <h4 className="font-sans text-sm lg:text-base font-bold text-brown-900">
             {step.title}
           </h4>
-          <span className="inline-block mt-1 text-xs font-bold font-mono uppercase tracking-wider text-orange-500">
+          <span className="inline-block mt-0.5 text-xs font-medium uppercase tracking-wider text-brown-800">
             {step.step}
           </span>
         </button>
@@ -197,7 +197,7 @@ function MobileStepCardV3({ step, index }: { step: Step; index: number }) {
           {String(index + 1).padStart(2, '0')}
         </span>
 
-        <span className="relative text-[10px] font-bold font-mono uppercase tracking-[0.2em] text-orange-500/70">
+        <span className="relative text-[10px] font-bold font-mono uppercase tracking-[0.2em] text-brown-800/70">
           {step.step}
         </span>
         <h4 className="relative text-lg font-bold text-brown-900 leading-tight mt-0.5">
