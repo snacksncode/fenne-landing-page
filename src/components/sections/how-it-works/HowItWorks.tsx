@@ -207,7 +207,7 @@ function MobileStepCardV3({ step, index }: { step: Step; index: number }) {
   )
 }
 
-export function HowItWorks09() {
+export function HowItWorks() {
   const sectionRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
@@ -257,7 +257,7 @@ export function HowItWorks09() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative md:h-[400vh]"
+      className="relative md:h-[200vh]"
       style={{ background: 'var(--color-cream-50)' }}
     >
       <div className="md:hidden pb-20 p-6">
