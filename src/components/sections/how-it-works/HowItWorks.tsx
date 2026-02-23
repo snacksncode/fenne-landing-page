@@ -13,6 +13,7 @@ import {
 import { easeOutQuint, easeOutCubic } from '@/lib/easings'
 import { steps, type Step } from './steps'
 import { useScrollTo } from '@/lib/scroll-utils'
+import { ChevronDown } from 'lucide-react'
 
 const STEP_ANGLES = steps.map((_, i) => -90 + (360 / steps.length) * i)
 
@@ -99,8 +100,8 @@ function DesktopStepLabel({
   const threshold = getStepThreshold(index)
   const opacity = useTransform(
     progress,
-    [threshold - 0.08, threshold],
-    [0.3, 1]
+    [threshold - 0.05, threshold],
+    [0.2, 1]
   )
   const Icon = step.icon
 
@@ -109,16 +110,19 @@ function DesktopStepLabel({
       <motion.div className="inset-0 absolute bg-cream-50 -z-1" />
       <motion.div className="md:justify-center flex" style={{ opacity }}>
         <button
-          className="text-center px-3 lg:px-4 flex md:flex-col items-center cursor-pointer hover:scale-105 transition-transform duration-200"
+          className="text-center px-3 lg:px-4 flex md:flex-col items-center cursor-pointer hover:scale-105 transition-transform"
           onClick={onClick}
         >
-          <div className="w-10 h-10 rounded-xl bg-orange-500/10 mb-3 flex items-center justify-center mx-auto">
-            <Icon className="w-5 h-5 text-orange-600" strokeWidth={2} />
+          <div className="p-2 h-12 w-20 rounded-full bg-orange-500 mb-3 flex items-center justify-center mx-auto">
+            <Icon
+              className="w-8 aspect-square text-cream-100"
+              strokeWidth={2}
+            />
           </div>
-          <h4 className="font-sans text-sm font-bold text-brown-900">
+          <h4 className="font-sans text-base font-bold text-brown-900">
             {step.title}
           </h4>
-          <span className="inline-block mt-1.5 text-[10px] font-bold font-mono uppercase tracking-wider text-orange-500">
+          <span className="inline-block mt-1 text-xs font-bold font-mono uppercase tracking-wider text-orange-500">
             {step.step}
           </span>
         </button>
@@ -241,7 +245,7 @@ export function HowItWorks() {
     const targetScrollY =
       sectionTop +
       stepThreshold * 0.93 * scrollableDistance +
-      (stepIndex > 0 ? 50 : 0)
+      (stepIndex > 0 ? 35 : 0)
     scrollTo(targetScrollY)
   }
 
@@ -257,7 +261,7 @@ export function HowItWorks() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative md:h-[200vh]"
+      className="relative md:h-[300vh]"
       style={{ background: 'var(--color-cream-50)' }}
     >
       <div className="md:hidden pb-20 p-6">
@@ -266,14 +270,14 @@ export function HowItWorks() {
           titleInView={mobileTitleInView}
         />
 
-        <div className="flex mt-12 flex-col gap-4 max-w-md mx-auto">
+        <div className="flex mt-12 flex-col gap-6 max-w-md mx-auto">
           {steps.map((step, i) => (
             <MobileStepCardV3 key={step.title} step={step} index={i} />
           ))}
         </div>
       </div>
 
-      <div className="hidden md:flex sticky h-[calc(100vh-64px)] flex-col items-center justify-center top-16">
+      <div className="hidden md:flex sticky h-[calc(100vh-64px)] pb-16 flex-col items-center justify-center top-16">
         <SectionHeader titleRef={titleRef} titleInView={titleInView} />
 
         <div className="relative mx-auto max-w-5xl px-6">
@@ -337,10 +341,10 @@ export function HowItWorks() {
                 {steps[currentStepIndex] && (
                   <motion.div
                     key={`step-${currentStepIndex}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ ease: easeOutCubic, duration: 0.2 }}
+                    initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
+                    transition={{ ease: easeOutCubic }}
                     className="absolute inset-0 flex flex-col items-center justify-center"
                   >
                     {(() => {
@@ -392,6 +396,17 @@ export function HowItWorks() {
             ))}
           </div>
         </div>
+        <motion.div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
+          <span className="text-xs font-bold uppercase tracking-widest text-brown-500">
+            Scroll to explore
+          </span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1, ease: easeOutQuint }}
+          >
+            <ChevronDown className="w-4 h-4 text-brown-400" strokeWidth={2} />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )

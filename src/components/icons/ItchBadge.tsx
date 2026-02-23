@@ -8,7 +8,11 @@ interface GooglePlayBadgeProps {
 
 export function ItchBadge({ width = 150 }: GooglePlayBadgeProps) {
   return (
-    <Link href="https://snacksncode.itch.io/fenne" className="transition-all hover:scale-105 active:scale-95">
+    <Link
+      href="https://snacksncode.itch.io/fenne"
+      target="_blank"
+      className="transition-all hover:scale-105 active:scale-95"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={width}
