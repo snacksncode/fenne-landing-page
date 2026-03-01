@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
 import { easeOutCubic, easeOutQuint } from '@/lib/easings'
 import { ItchBadge } from '@/components/icons/ItchBadge'
+import { AppStoreBadge } from '@/components/icons/AppStoreBadge'
 
 export function CTA() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -77,9 +78,9 @@ export function CTA() {
             animate={reveal2InView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: easeOutCubic, delay: 0.1 }}
           >
-            <ItchBadge width={150} />
-            {/* <AppStoreBadge width={150} />
-            <GooglePlayBadge width={150} /> */}
+            <ItchBadge height={45} />
+            <AppStoreBadge height={45} />
+            {/* <GooglePlayBadge width={150} /> */}
           </motion.div>
         </div>
       </div>

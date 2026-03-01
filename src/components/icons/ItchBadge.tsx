@@ -3,19 +3,19 @@
 import Link from 'next/link'
 
 interface GooglePlayBadgeProps {
-  width?: number
+  height: number
 }
 
-export function ItchBadge({ width = 150 }: GooglePlayBadgeProps) {
+export function ItchBadge({ height }: GooglePlayBadgeProps) {
   return (
     <Link
       href="https://snacksncode.itch.io/fenne"
       target="_blank"
-      className="transition-all hover:scale-105 active:scale-95"
+      className="transition-all shrink-0 hover:scale-105 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width}
+        height={height}
         viewBox="0 0 740 230"
         fill="none"
       >

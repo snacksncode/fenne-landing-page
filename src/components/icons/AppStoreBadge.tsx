@@ -3,14 +3,15 @@
 import Link from 'next/link'
 
 interface AppStoreBadgeProps {
-  width?: number
+  height: number
 }
 
-export function AppStoreBadge({ width = 150 }: AppStoreBadgeProps) {
+export function AppStoreBadge({ height }: AppStoreBadgeProps) {
   return (
     <Link
-      href="https://apps.apple.com/app/fenne-meal-planner/id6739899701"
-      className="transition-all hover:scale-105 active:scale-95"
+      href="https://apps.apple.com/app/fenne-meal-planner-groceries/id6759224212"
+      target="_blank"
+      className="transition-all hover:scale-105 active:scale-95 shrink-0"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +20,7 @@ export function AppStoreBadge({ width = 150 }: AppStoreBadgeProps) {
         id="US_UK_Download_on_the"
         x="0px"
         y="0px"
-        width={width}
+        height={height}
         viewBox="0 0 135 40"
         enableBackground="new 0 0 135 40"
         xmlSpace="preserve"

@@ -7,6 +7,7 @@ import { easeOutCubic } from '@/lib/easings'
 import { StripeGradientBackground } from './StripeGradient'
 import { useScrollTo } from '@/lib/scroll-utils'
 import { ItchBadge } from '@/components/icons/ItchBadge'
+import { AppStoreBadge } from '@/components/icons/AppStoreBadge'
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
@@ -40,9 +41,9 @@ export function AnimatedWords({
 export function StoreCTAs({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <ItchBadge width={150} />
-      {/* <AppStoreBadge width={150} />
-      <GooglePlayBadge width={150} /> */}
+      <ItchBadge height={45} />
+      <AppStoreBadge height={45} />
+      {/* <GooglePlayBadge width={150} />  */}
     </div>
   )
 }

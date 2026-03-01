@@ -147,8 +147,8 @@ export function Testimonials() {
               <div
                 className={`relative rounded-3xl px-7 py-6 md:px-8 md:py-7 transition-all duration-300 hover:scale-[1.03] ${
                   t.accent
-                    ? 'bg-orange-500 text-white shadow-xl shadow-orange-500/20'
-                    : 'bg-cream-50 text-brown-900 shadow-[0_2px_16px_rgba(0,0,0,0.2)]'
+                    ? 'bg-orange-500 text-white border-4 border-[#D58449]'
+                    : 'bg-cream-50 text-brown-900 border-4 border-[#EEE8E1]'
                 } ${i % 3 === 1 ? 'md:mt-8' : ''}`}
                 style={{
                   transform: `rotate(${t.rotate}deg)`,
