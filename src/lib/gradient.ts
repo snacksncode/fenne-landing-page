@@ -315,10 +315,17 @@ class PlaneGeometry {
     context.createBuffer();
 
     this.attributes = {
-      position: new Attribute(this.gl, { target: context.ARRAY_BUFFER, size: 3 }),
+      position: new Attribute(this.gl, {
+        target: context.ARRAY_BUFFER,
+        size: 3,
+      }),
       uv: new Attribute(this.gl, { target: context.ARRAY_BUFFER, size: 2 }),
       uvNorm: new Attribute(this.gl, { target: context.ARRAY_BUFFER, size: 2 }),
-      index: new Attribute(this.gl, { target: context.ELEMENT_ARRAY_BUFFER, size: 3, type: context.UNSIGNED_SHORT }),
+      index: new Attribute(this.gl, {
+        target: context.ELEMENT_ARRAY_BUFFER,
+        size: 3,
+        type: context.UNSIGNED_SHORT,
+      }),
     };
 
     this.setTopology();
@@ -393,17 +400,15 @@ class PlaneGeometry {
 class Material {
   gl: MiniGL;
   uniforms: Record<string, Uniform>;
-  uniformInstances: Array<{ uniform: Uniform; location: WebGLUniformLocation | null }> = [];
+  uniformInstances: Array<{
+    uniform: Uniform;
+    location: WebGLUniformLocation | null;
+  }> = [];
   program: WebGLProgram;
   vertexShader: WebGLShader;
   fragmentShader: WebGLShader;
 
-  constructor(
-    minigl: MiniGL,
-    vertexShaders: string,
-    fragments: string,
-    uniforms: Record<string, Uniform> = {}
-  ) {
+  constructor(minigl: MiniGL, vertexShaders: string, fragments: string, uniforms: Record<string, Uniform> = {}) {
     this.gl = minigl;
     this.uniforms = uniforms;
 
@@ -575,10 +580,22 @@ class MiniGL {
 
   setOrthographicCamera() {
     (this.commonUniforms.projectionMatrix as Uniform).value = [
-      2 / this._canvas.width, 0, 0, 0,
-      0, 2 / this._canvas.height, 0, 0,
-      0, 0, 2 / -4000, 0,
-      0, 0, 0, 1,
+      2 / this._canvas.width,
+      0,
+      0,
+      0,
+      0,
+      2 / this._canvas.height,
+      0,
+      0,
+      0,
+      0,
+      2 / -4000,
+      0,
+      0,
+      0,
+      0,
+      1,
     ];
   }
 
@@ -602,7 +619,10 @@ export interface GradientOptions {
   seed?: number;
 }
 
-const defaultOptions: Required<Omit<GradientOptions, 'canvas' | 'seed'>> & { canvas: null; seed: number } = {
+const defaultOptions: Required<Omit<GradientOptions, 'canvas' | 'seed'>> & {
+  canvas: null;
+  seed: number;
+} = {
   canvas: null,
   colors: ['#f00', '#0f0', '#00f'],
   wireframe: false,
@@ -646,17 +666,13 @@ export class StripeGradient {
       throw new Error('Missing Canvas element.');
     }
 
-    this._minigl = new MiniGL(
-      this._canvas,
-      this._canvas.offsetWidth,
-      this._canvas.offsetHeight
-    );
+    this._minigl = new MiniGL(this._canvas, this._canvas.offsetWidth, this._canvas.offsetHeight);
 
     this.init();
   }
 
   private getOption<K extends keyof GradientOptions>(name: K): GradientOptions[K] {
-    return this._options[name] ?? (defaultOptions as Record<string, unknown>)[name as string] as GradientOptions[K];
+    return this._options[name] ?? ((defaultOptions as Record<string, unknown>)[name as string] as GradientOptions[K]);
   }
 
   private setFlag(name: string, value: unknown): unknown {
@@ -681,8 +697,7 @@ export class StripeGradient {
   };
 
   private animate = (event: number = 0) => {
-    const shouldSkipFrame =
-      !!document.hidden || !this.getFlag('playing') || parseInt(String(event), 10) % 2 === 0;
+    const shouldSkipFrame = !!document.hidden || !this.getFlag('playing') || parseInt(String(event), 10) % 2 === 0;
     let lastFrame = this.getFlag('lastFrame', 0) as number;
 
     if (!shouldSkipFrame) {
@@ -703,11 +718,7 @@ export class StripeGradient {
   };
 
   private normalizeColor(hexCode: number): number[] {
-    return [
-      ((hexCode >> 16) & 255) / 255,
-      ((hexCode >> 8) & 255) / 255,
-      (255 & hexCode) / 255,
-    ];
+    return [((hexCode >> 16) & 255) / 255, ((hexCode >> 8) & 255) / 255, (255 & hexCode) / 255];
   }
 
   private initMaterial(): Material {

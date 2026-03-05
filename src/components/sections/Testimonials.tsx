@@ -113,7 +113,7 @@ export function Testimonials() {
       />
 
       <div
-        className="pointer-events-none absolute -left-32 top-1/4 h-[400px] w-[400px] rounded-full opacity-[0.15]"
+        className="pointer-events-none absolute -left-32 top-1/4 h-100 w-100 rounded-full opacity-[0.15]"
         style={{
           background:
             'radial-gradient(circle, var(--color-orange-500) 0%, transparent 70%)',

@@ -1,7 +1,7 @@
 import { Nav } from '@/components/Nav'
 import { Hero } from '@/components/heroes/Hero'
 import { BentoGrid } from '@/components/sections/features/index'
-import { HowItWorks } from '@/components/sections/how-it-works'
+import { HowItWorksSection } from '@/components/sections/how-it-works'
 import { Footer } from '@/components/sections/Footer'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { CTA } from '@/components/sections/CTA'
@@ -21,7 +21,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <BentoGrid />
-        <HowItWorks />
+        <HowItWorksSection />
         <Testimonials />
         <OpenSource />
         <CTA />
