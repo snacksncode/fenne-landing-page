@@ -1,20 +1,17 @@
-'use client'
+'use client';
 
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
-import { Github, ExternalLink, Smartphone, Server } from 'lucide-react'
-import { easeOutCubic, easeOutQuint } from '@/lib/easings'
-import Link from 'next/link'
+import { useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { Github, ExternalLink, Smartphone, Server } from 'lucide-react';
+import { easeOutCubic, easeOutQuint } from '@/lib/easings';
+import Link from 'next/link';
 
 const repos = [
   {
     name: 'fenne',
     label: 'Mobile App',
     heading: 'TypeScript / Expo / React Native',
-    lines: [
-      'Powered by Bun. Shipped via EAS.',
-      'React 19, Tanstack Query, Reanimated.',
-    ],
+    lines: ['Powered by Bun. Shipped via EAS.', 'React 19, Tanstack Query, Reanimated.'],
     icon: Smartphone,
     url: 'https://github.com/snacksncode/fenne',
   },
@@ -26,13 +23,13 @@ const repos = [
     icon: Server,
     url: 'https://github.com/snacksncode/fenne-backend',
   },
-]
+];
 
 export function OpenSource() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: true, margin: '-12% 0px' })
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef, { once: true, margin: '-12% 0px' });
 
-  const fadeInitial = { opacity: 0 }
+  const fadeInitial = { opacity: 0 };
 
   return (
     <section
@@ -44,8 +41,7 @@ export function OpenSource() {
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage:
-            'radial-gradient(circle, var(--color-cream-50) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, var(--color-cream-50) 1px, transparent 1px)',
           backgroundSize: '18px 18px',
         }}
       />
@@ -59,8 +55,7 @@ export function OpenSource() {
           transition={{ duration: 0.8, ease: easeOutQuint }}
         >
           <h2 className="font-mono text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-cream-50">
-            <span className="text-orange-500">{'>'}</span> We&apos;re
-            open-source
+            <span className="text-orange-500">{'>'}</span> We&apos;re open-source
           </h2>
           <p className="mt-3 font-mono text-sm text-cream-50/40 max-w-lg">
             All source code is public.
@@ -70,7 +65,7 @@ export function OpenSource() {
 
         <div className="grid gap-6 md:grid-cols-2 max-w-4xl">
           {repos.map((repo, i) => {
-            const Icon = repo.icon
+            const Icon = repo.icon;
             return (
               <motion.div
                 key={repo.name}
@@ -90,45 +85,27 @@ export function OpenSource() {
                     className="flex items-center gap-2 px-4 py-3 border-b border-cream-50/6"
                     style={{ background: 'var(--color-brown-900)' }}
                   >
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ background: 'var(--color-red-500)' }}
-                    />
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ background: 'var(--color-orange-500)' }}
-                    />
-                    <span
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{ background: 'var(--color-green-500)' }}
-                    />
-                    <span className="ml-2 font-mono text-xs text-cream-50/30 truncate">
-                      snacksncode/{repo.name}
-                    </span>
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: 'var(--color-red-500)' }} />
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: 'var(--color-orange-500)' }} />
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: 'var(--color-green-500)' }} />
+                    <span className="ml-2 font-mono text-xs text-cream-50/30 truncate">snacksncode/{repo.name}</span>
                     <ExternalLink className="ml-auto h-3.5 w-3.5 text-cream-50/20 transition-colors group-hover:text-orange-500" />
                   </div>
 
                   {/* terminal body */}
-                  <div
-                    className="p-6"
-                    style={{ background: 'var(--color-brown-900)' }}
-                  >
+                  <div className="p-6" style={{ background: 'var(--color-brown-900)' }}>
                     <div className="flex items-center gap-3 mb-4">
                       <Icon className="h-5 w-5 text-orange-500" />
-                      <span className="font-mono text-base font-bold text-cream-50">
-                        {repo.label}
-                      </span>
+                      <span className="font-mono text-base font-bold text-cream-50">{repo.label}</span>
                     </div>
 
                     <div className="space-y-2 font-mono text-sm">
                       <p className="text-cream-50/50">
-                        <span className="text-green-500">$</span>{' '}
-                        <span className="text-cream-50/70">cat</span> README.md
+                        <span className="text-green-500">$</span> <span className="text-cream-50/70">cat</span>{' '}
+                        README.md
                       </p>
                       <div className="pl-4 border-l-2 border-cream-50/10 space-y-1">
-                        <p className="text-orange-500 font-bold">
-                          # {repo.heading}
-                        </p>
+                        <p className="text-orange-500 font-bold"># {repo.heading}</p>
                         {repo.lines.map((line) => (
                           <p key={line} className="text-cream-50/60">
                             {line}
@@ -146,7 +123,7 @@ export function OpenSource() {
                   </div>
                 </Link>
               </motion.div>
-            )
+            );
           })}
         </div>
 
@@ -156,10 +133,9 @@ export function OpenSource() {
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.55, ease: easeOutCubic }}
         >
-          <span className="text-green-500">$</span> echo &quot;Star us, report
-          bugs, or contribute features&quot;
+          <span className="text-green-500">$</span> echo &quot;Star us, report bugs, or contribute features&quot;
         </motion.p>
       </div>
     </section>
-  )
+  );
 }

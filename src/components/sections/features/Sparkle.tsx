@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { motion } from 'motion/react'
+import { motion } from 'motion/react';
 
 interface SparkleProps {
-  width: string
-  delay?: number
+  width: string;
+  delay?: number;
 }
 
 export function Sparkle({ width, delay = 0 }: SparkleProps) {
@@ -31,5 +31,5 @@ export function Sparkle({ width, delay = 0 }: SparkleProps) {
       <path d="M12 8v8" />
       <path d="M8 12h8" />
     </motion.svg>
-  )
+  );
 }

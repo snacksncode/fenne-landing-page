@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
-import { easeOutQuint } from '@/lib/easings'
+import { useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { easeOutQuint } from '@/lib/easings';
 
 const testimonials = [
   {
@@ -53,19 +53,14 @@ const testimonials = [
     rotate: 1,
     accent: true,
   },
-]
+];
 
 function StarIcon() {
   return (
-    <svg
-      className="star-icon h-5 w-5"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
+    <svg className="star-icon h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
     </svg>
-  )
+  );
 }
 
 const containerVariants = {
@@ -73,7 +68,7 @@ const containerVariants = {
   visible: {
     transition: { staggerChildren: 0.12 },
   },
-}
+};
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -83,16 +78,16 @@ const cardVariants = {
     scale: 1,
     transition: { type: 'spring' as const, stiffness: 200, damping: 15 },
   },
-}
+};
 
 export function Testimonials() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
-  const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' })
-  const cardsInView = useInView(cardsRef, { once: true, margin: '-15% 0px' })
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: '-15% 0px' });
+  const cardsInView = useInView(cardsRef, { once: true, margin: '-15% 0px' });
 
-  const titleInitial = { opacity: 0, y: 30 }
+  const titleInitial = { opacity: 0, y: 30 };
 
   return (
     <section
@@ -115,8 +110,7 @@ export function Testimonials() {
       <div
         className="pointer-events-none absolute -left-32 top-1/4 h-100 w-100 rounded-full opacity-[0.15]"
         style={{
-          background:
-            'radial-gradient(circle, var(--color-orange-500) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--color-orange-500) 0%, transparent 70%)',
         }}
       />
 
@@ -139,11 +133,7 @@ export function Testimonials() {
           animate={cardsInView ? 'visible' : 'hidden'}
         >
           {testimonials.map((t, i) => (
-            <motion.div
-              key={t.name}
-              className="testimonial-card relative"
-              variants={cardVariants}
-            >
+            <motion.div key={t.name} className="testimonial-card relative" variants={cardVariants}>
               <div
                 className={`relative rounded-3xl px-7 py-6 md:px-8 md:py-7 transition-all duration-300 hover:scale-[1.03] ${
                   t.accent
@@ -191,5 +181,5 @@ export function Testimonials() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

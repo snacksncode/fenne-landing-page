@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface GooglePlayBadgeProps {
-  height: number
+  height: number;
 }
 
 export function ItchBadge({ height }: GooglePlayBadgeProps) {
@@ -13,12 +13,7 @@ export function ItchBadge({ height }: GooglePlayBadgeProps) {
       target="_blank"
       className="transition-all shrink-0 hover:scale-105 active:scale-95"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height={height}
-        viewBox="0 0 740 230"
-        fill="none"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 740 230" fill="none">
         <path
           d="M717.137 0H22.858C10.234 0 0 10.234 0 22.858v181.976c0 12.624 10.234 22.858 22.858 22.858h694.279c12.624 0 22.858-10.234 22.858-22.858V22.858C739.995 10.234 729.761 0 717.137 0z"
           fill="#222"
@@ -29,5 +24,5 @@ export function ItchBadge({ height }: GooglePlayBadgeProps) {
         />
       </svg>
     </Link>
-  )
+  );
 }

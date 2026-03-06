@@ -1,12 +1,12 @@
-import { Nav } from '@/components/Nav'
-import { Hero } from '@/components/heroes/Hero'
-import { BentoGrid } from '@/components/sections/features/index'
-import { HowItWorksSection } from '@/components/sections/how-it-works'
-import { Footer } from '@/components/sections/Footer'
-import { Testimonials } from '@/components/sections/Testimonials'
-import { CTA } from '@/components/sections/CTA'
-import { OpenSource } from '@/components/sections/OpenSource'
-import Link from 'next/link'
+import { Nav } from '@/components/Nav';
+import { Hero } from '@/components/heroes/Hero';
+import { BentoGrid } from '@/components/sections/features/index';
+import { HowItWorksSection } from '@/components/sections/how-it-works';
+import { Footer } from '@/components/sections/Footer';
+import { Testimonials } from '@/components/sections/Testimonials';
+import { CTA } from '@/components/sections/CTA';
+import { OpenSource } from '@/components/sections/OpenSource';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -28,5 +28,5 @@ export default function Home() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

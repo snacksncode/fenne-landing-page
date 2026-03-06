@@ -1,24 +1,17 @@
-'use client'
+'use client';
 
-import { Fragment, useRef, useState, useEffect } from 'react'
-import type { CSSProperties } from 'react'
-import {
-  motion,
-  useInView,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from 'motion/react'
-import { easeOutQuint } from '@/lib/easings'
-import { steps, type Step } from './steps'
+import { Fragment, useRef, useState, useEffect } from 'react';
+import type { CSSProperties } from 'react';
+import { motion, useInView, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react';
+import { easeOutQuint } from '@/lib/easings';
+import { steps, type Step } from './steps';
 
 function StepSlide({ step, index }: { step: Step; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.5 })
-  const Icon = step.icon
-  const titleWords = step.title.split(' ')
-  const descWords = step.description.split(' ')
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const Icon = step.icon;
+  const titleWords = step.title.split(' ');
+  const descWords = step.description.split(' ');
 
   return (
     <div
@@ -66,8 +59,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
             position: 'absolute',
             inset: -24,
             borderRadius: '50%',
-            background:
-              'radial-gradient(circle, rgba(249,149,77,0.35) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(249,149,77,0.35) 0%, transparent 70%)',
             filter: 'blur(12px)',
           }}
         />
@@ -77,8 +69,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
             width: 'clamp(72px, 15vw, 112px)',
             height: 'clamp(72px, 15vw, 112px)',
             borderRadius: 'clamp(20px, 3vw, 32px)',
-            background:
-              'linear-gradient(135deg, var(--color-orange-500), var(--color-orange-600))',
+            background: 'linear-gradient(135deg, var(--color-orange-500), var(--color-orange-600))',
             boxShadow: '0 16px 48px rgba(249,149,77,0.45)',
             display: 'flex',
             alignItems: 'center',
@@ -202,25 +193,25 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
         ))}
       </p>
     </div>
-  )
+  );
 }
 
 function GapConnector() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [h, setH] = useState(240)
+  const ref = useRef<HTMLDivElement>(null);
+  const [h, setH] = useState(240);
 
   useEffect(() => {
-    const update = () => setH(window.innerWidth >= 1024 ? 240 : 120)
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [])
+    const update = () => setH(window.innerWidth >= 1024 ? 240 : 120);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 75%', 'end 50%'],
-  })
-  const pathLength = useSpring(scrollYProgress, { stiffness: 300, damping: 40 })
+  });
+  const pathLength = useSpring(scrollYProgress, { stiffness: 300, damping: 40 });
 
   return (
     <div
@@ -232,12 +223,7 @@ function GapConnector() {
         alignItems: 'stretch',
       }}
     >
-      <svg
-        width="4"
-        height={h}
-        aria-hidden="true"
-        style={{ overflow: 'visible' }}
-      >
+      <svg width="4" height={h} aria-hidden="true" style={{ overflow: 'visible' }}>
         <path
           d={`M 2 0 L 2 ${h}`}
           stroke="var(--color-brown-900)"
@@ -258,7 +244,7 @@ function GapConnector() {
         />
       </svg>
     </div>
-  )
+  );
 }
 
 function ParallaxBlobs({
@@ -267,17 +253,17 @@ function ParallaxBlobs({
   y3,
   y4,
 }: {
-  y1: MotionValue<number>
-  y2: MotionValue<number>
-  y3: MotionValue<number>
-  y4: MotionValue<number>
+  y1: MotionValue<number>;
+  y2: MotionValue<number>;
+  y3: MotionValue<number>;
+  y4: MotionValue<number>;
 }) {
   const blob: CSSProperties = {
     position: 'absolute',
     borderRadius: '50%',
     pointerEvents: 'none',
     filter: 'blur(80px)',
-  }
+  };
 
   return (
     <>
@@ -334,20 +320,20 @@ function ParallaxBlobs({
         }}
       />
     </>
-  )
+  );
 }
 
 export function HowItWorksV2() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
-  })
+  });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -180])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 220])
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -120])
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, 160])
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -180]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 220]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [0, 160]);
 
   return (
     <section
@@ -369,5 +355,5 @@ export function HowItWorksV2() {
         </Fragment>
       ))}
     </section>
-  )
+  );
 }

@@ -1,52 +1,46 @@
-'use client'
+'use client';
 
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
-import { easeOutCubic, easeOutQuint } from '@/lib/easings'
-import { ItchBadge } from '@/components/icons/ItchBadge'
-import { AppStoreBadge } from '@/components/icons/AppStoreBadge'
+import { useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { easeOutCubic, easeOutQuint } from '@/lib/easings';
+import { ItchBadge } from '@/components/icons/ItchBadge';
+import { AppStoreBadge } from '@/components/icons/AppStoreBadge';
 
 export function CTA() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
   const headlineInView = useInView(headlineRef, {
     once: true,
     margin: '-15% 0px',
-  })
-  const revealRef1 = useRef<HTMLParagraphElement>(null)
-  const revealRef2 = useRef<HTMLDivElement>(null)
+  });
+  const revealRef1 = useRef<HTMLParagraphElement>(null);
+  const revealRef2 = useRef<HTMLDivElement>(null);
   const reveal1InView = useInView(revealRef1, {
     once: true,
     margin: '-10% 0px',
-  })
+  });
   const reveal2InView = useInView(revealRef2, {
     once: true,
     margin: '-10% 0px',
-  })
-  const headlineInitial = { opacity: 0, scale: 0.92, y: 30 }
+  });
+  const headlineInitial = { opacity: 0, scale: 0.92, y: 30 };
 
-  const revealInitial = { opacity: 0, y: 20 }
+  const revealInitial = { opacity: 0, y: 20 };
 
   return (
-    <section
-      ref={sectionRef}
-      id="cta"
-      className="cta-section relative -mt-12 overflow-x-clip"
-    >
+    <section ref={sectionRef} id="cta" className="cta-section relative -mt-12 overflow-x-clip">
       <div className="absolute left-0 right-0 bottom-0 top-1/2 bg-brown-900" />
       <div
         className="relative py-24 md:py-32 lg:py-40"
         style={{
-          background:
-            'linear-gradient(135deg, var(--color-orange-500) 0%, var(--color-orange-600) 100%)',
+          background: 'linear-gradient(135deg, var(--color-orange-500) 0%, var(--color-orange-600) 100%)',
           clipPath: 'polygon(0 8%, 100% 0%, 100% 92%, 0% 100%)',
         }}
       >
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              'radial-gradient(ellipse 70% 70% at 50% 60%, rgba(255,255,255,0.15) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse 70% 70% at 50% 60%, rgba(255,255,255,0.15) 0%, transparent 70%)',
           }}
         />
 
@@ -67,8 +61,7 @@ export function CTA() {
             animate={reveal1InView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: easeOutCubic }}
           >
-            Plan your next week in just 10 minutes.{' '}
-            <br className="max-md:hidden" />
+            Plan your next week in just 10 minutes. <br className="max-md:hidden" />
             Shop with a list that actually makes sense.
           </motion.p>
           <motion.div
@@ -85,5 +78,5 @@ export function CTA() {
         </div>
       </div>
     </section>
-  )
+  );
 }

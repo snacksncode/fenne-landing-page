@@ -1,9 +1,11 @@
-import { useLocalStorage } from '@uidotdev/usehooks'
+'use client';
+
+import { useLocalStorage } from '@/lib/useLocalStorage';
 
 export const featureFlagKeys = {
   howItWorksV2: 'how_it_works_v2',
   smoothScroll: 'smooth_scroll',
-} as const
+} as const;
 
 export const featureFlags = [
   {
@@ -18,14 +20,12 @@ export const featureFlags = [
     description: `Lenis smooth scrolling across the entire site.`,
     defaultValue: true,
   },
-]
+];
 
 export const useFeatureFlag = (key: FeatureFlagKey) => {
-  const [value] = useLocalStorage(
-    key,
-    featureFlags.find((ff) => ff.key === key)?.defaultValue
-  )
-  return value
-}
+  const defaultVal = featureFlags.find((ff) => ff.key === key)?.defaultValue;
+  const [value] = useLocalStorage(key, defaultVal != null ? String(defaultVal) : null);
+  return value === 'true';
+};
 
-export type FeatureFlagKey = (typeof featureFlags)[number]['key']
+export type FeatureFlagKey = (typeof featureFlags)[number]['key'];

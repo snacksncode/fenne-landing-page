@@ -1,81 +1,73 @@
-'use client'
+'use client';
 
-import { useEffect, useRef, useState } from 'react'
-import { useHover } from '@uidotdev/usehooks'
-import { motion, steps, useInView } from 'motion/react'
-import Image from 'next/image'
-import weeklyPlan from '../../../../public/mockups/weekly-plan-portrait.png'
-import recipesList from '../../../../public/mockups/recipes-list-portrait.png'
-import {
-  Calendar,
-  ShoppingCart,
-  BookOpen,
-  CalendarCheck,
-  RefreshCw,
-  FileText,
-  Sparkles,
-} from 'lucide-react'
-import { easeOutQuint, easeOutCubic } from '@/lib/easings'
-import { Sparkle } from './Sparkle'
+import { useEffect, useRef, useState } from 'react';
+import { useHover } from '@uidotdev/usehooks';
+import { motion, steps, useInView } from 'motion/react';
+import Image from 'next/image';
+import weeklyPlan from '../../../../public/mockups/weekly-plan-portrait.png';
+import recipesList from '../../../../public/mockups/recipes-list-portrait.png';
+import { Calendar, ShoppingCart, BookOpen, CalendarCheck, RefreshCw, FileText, Sparkles } from 'lucide-react';
+import { easeOutQuint, easeOutCubic } from '@/lib/easings';
+import { Sparkle } from './Sparkle';
 
-const ease = [0.22, 1, 0.36, 1] as const
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const groceryItems = [
   { id: '1', checked: true, label: 'Milk', aisle: 'Dairy' },
   { id: '2', checked: false, label: 'Chicken Breast', aisle: 'Meat' },
   { id: '3', checked: false, label: 'Apples', aisle: 'Produce' },
   { id: '4', checked: false, label: 'Olive Oil', aisle: 'Pantry' },
-]
+];
 
-const fullText = 'Instructions or links? No problem!'
+const fullText = 'Instructions or links? No problem!';
 
 export function BentoGrid() {
-  const ref = useRef<HTMLElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-10% 0px' })
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' });
 
-  const titleRef = useRef<HTMLDivElement>(null)
-  const titleInView = useInView(titleRef, { once: true, amount: 0.5 })
+  const titleRef = useRef<HTMLDivElement>(null);
+  const titleInView = useInView(titleRef, { once: true, amount: 0.5 });
 
-  const [checkedItems, setCheckedItems] = useState(['1'])
+  const [checkedItems, setCheckedItems] = useState(['1']);
 
-  const [typedText, setTypedText] = useState('')
-  const [mealsAnimationComplete, setMealsAnimationComplete] = useState(false)
-  const [groceriesAnimComplete, setGroceriesAnimComplete] = useState(false)
-  const [planMealsRef, isPlanMealsHovered] = useHover()
-  const [recipesRef, isRecipesHovered] = useHover()
+  const [typedText, setTypedText] = useState('');
+  const [mealsAnimationComplete, setMealsAnimationComplete] = useState(false);
+  const [groceriesAnimComplete, setGroceriesAnimComplete] = useState(false);
+  const [planMealsRef, isPlanMealsHovered] = useHover();
+  const [recipesRef, isRecipesHovered] = useHover();
 
   const toggleItem = (id: string) => {
     setCheckedItems((prev) => {
-      if (prev.includes(id)) return prev.filter((i) => i !== id)
-      return [...prev, id]
-    })
-  }
+      if (prev.includes(id)) return prev.filter((i) => i !== id);
+      return [...prev, id];
+    });
+  };
 
   useEffect(() => {
     if (isInView && typedText.length < fullText.length) {
       const timer = setTimeout(() => {
-        setTypedText(fullText.slice(0, typedText.length + 1))
-      }, 85)
-      return () => clearTimeout(timer)
+        setTypedText(fullText.slice(0, typedText.length + 1));
+      }, 85);
+      return () => clearTimeout(timer);
     }
-  }, [isInView, typedText])
+  }, [isInView, typedText]);
 
   useEffect(() => {
-    if (!groceriesAnimComplete) return
-    const chickenTimer = setTimeout(() => toggleItem('2'), 500)
-    const applesTimer = setTimeout(() => toggleItem('3'), 750)
+    if (!groceriesAnimComplete) return;
+    const chickenTimer = setTimeout(() => toggleItem('2'), 500);
+    const applesTimer = setTimeout(() => toggleItem('3'), 750);
     return () => {
-      clearTimeout(chickenTimer)
-      clearTimeout(applesTimer)
-    }
-  }, [groceriesAnimComplete])
+      clearTimeout(chickenTimer);
+      clearTimeout(applesTimer);
+    };
+  }, [groceriesAnimComplete]);
 
   const cardAnimation = {
     initial: { opacity: 0, y: 24, scale: 0.9 },
     whileInView: { opacity: 1, y: 0, scale: 1 },
     transition: { ease: easeOutCubic },
     viewport: { once: true },
-  }
+  };
 
   return (
     <section
@@ -129,12 +121,9 @@ export function BentoGrid() {
                   <Calendar className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-black text-white mb-1.5">
-                Plan Meals
-              </h3>
+              <h3 className="text-xl md:text-2xl font-black text-white mb-1.5">Plan Meals</h3>
               <p className="text-cream-100 font-medium text-sm leading-relaxed">
-                See your whole week at a glance.{' '}
-                <br className="max-lg:hidden" />
+                See your whole week at a glance. <br className="max-lg:hidden" />
                 Plan in minutes, not hours
               </p>
             </div>
@@ -146,11 +135,7 @@ export function BentoGrid() {
               viewport={{ once: true }}
               className="max-lg:hidden absolute -bottom-32 -top-16 right-16 rotate-12"
             >
-              <Image
-                src={weeklyPlan}
-                className="h-full w-auto"
-                alt="Weekly meal planning view"
-              />
+              <Image src={weeklyPlan} className="h-full w-auto" alt="Weekly meal planning view" />
             </motion.div>
             <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/8 -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-white/5 translate-y-1/3 -translate-x-1/3" />
@@ -167,17 +152,14 @@ export function BentoGrid() {
                   <ShoppingCart className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-black text-white mb-1.5">
-                Grocery List
-              </h3>
+              <h3 className="text-xl md:text-2xl font-black text-white mb-1.5">Grocery List</h3>
               <p className="text-cream-100 font-medium text-sm leading-relaxed mb-5">
-                Auto-generated from your meal plan.{' '}
-                <br className="max-lg:hidden" />
+                Auto-generated from your meal plan. <br className="max-lg:hidden" />
                 Check off items as you shop.
               </p>
               <div className="flex flex-col gap-2.5">
                 {groceryItems.map((item, i) => {
-                  const isChecked = checkedItems.includes(item.id)
+                  const isChecked = checkedItems.includes(item.id);
                   return (
                     <motion.button
                       key={item.label}
@@ -186,25 +168,17 @@ export function BentoGrid() {
                       animate={isInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ delay: 0.45 + i * 0.08, ease }}
                       className={`flex text-left items-center gap-3 rounded-xl px-3 py-2 cursor-pointer transition-colors duration-200 ${
-                        isChecked
-                          ? 'bg-white/10 hover:bg-white/15'
-                          : 'bg-white/5 hover:bg-white/10'
+                        isChecked ? 'bg-white/10 hover:bg-white/15' : 'bg-white/5 hover:bg-white/10'
                       }`}
                     >
                       <motion.div
                         animate={{
-                          backgroundColor: isChecked
-                            ? 'rgba(255, 255, 255, 0.25)'
-                            : 'transparent',
-                          borderColor: isChecked
-                            ? 'rgba(255, 255, 255, 0.25)'
-                            : 'rgba(255, 255, 255, 0.3)',
+                          backgroundColor: isChecked ? 'rgba(255, 255, 255, 0.25)' : 'transparent',
+                          borderColor: isChecked ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.3)',
                         }}
                         transition={{ duration: 0.2 }}
                         className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
-                          isChecked
-                            ? 'bg-white/25'
-                            : 'border-[1.5px] border-white/30'
+                          isChecked ? 'bg-white/25' : 'border-[1.5px] border-white/30'
                         }`}
                       >
                         {isChecked && (
@@ -237,9 +211,7 @@ export function BentoGrid() {
                         }}
                         transition={{ duration: 0.2 }}
                         className={`text-sm font-medium flex-1 min-w-0 ${
-                          isChecked
-                            ? 'line-through text-white/40'
-                            : 'text-white/90'
+                          isChecked ? 'line-through text-white/40' : 'text-white/90'
                         }`}
                       >
                         {item.label}
@@ -248,7 +220,7 @@ export function BentoGrid() {
                         {item.aisle}
                       </span>
                     </motion.button>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -286,11 +258,7 @@ export function BentoGrid() {
               viewport={{ once: true }}
               className="max-lg:hidden absolute -bottom-64 top-4 right-8"
             >
-              <Image
-                src={recipesList}
-                className="h-full w-auto"
-                alt="Weekly meal planning view"
-              />
+              <Image src={recipesList} className="h-full w-auto" alt="Weekly meal planning view" />
             </motion.div>
             <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
           </motion.div>
@@ -304,9 +272,7 @@ export function BentoGrid() {
                 <CalendarCheck className="w-5 h-5 text-white" />
               </div>
             </div>
-            <h3 className="text-xl md:text-2xl font-black text-white mb-1">
-              Shopping Days
-            </h3>
+            <h3 className="text-xl md:text-2xl font-black text-white mb-1">Shopping Days</h3>
             <p className="text-cream-100 font-medium text-pretty text-sm leading-relaxed">
               Tag days when you plan to shop.
               <br className="max-lg:hidden" /> Never forget grocery day
@@ -319,9 +285,7 @@ export function BentoGrid() {
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ delay: 0.6 + i * 0.05, ease }}
                   className={`w-6 aspect-square lg:w-8 rounded-md flex items-center justify-center text-[9px] lg:text-xs font-bold ${
-                    i === 2 || i === 5
-                      ? 'bg-white/30 text-white ring-1 ring-white/40'
-                      : 'bg-white/10 text-white/50'
+                    i === 2 || i === 5 ? 'bg-white/30 text-white ring-1 ring-white/40' : 'bg-white/10 text-white/50'
                   }`}
                 >
                   {day}
@@ -349,9 +313,7 @@ export function BentoGrid() {
                   </motion.div>
                 </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-black text-white">
-                Realtime Sync
-              </h3>
+              <h3 className="text-xl md:text-2xl font-black text-white">Realtime Sync</h3>
             </div>
             <p className="text-cream-100 font-medium mt-1 text-pretty text-sm leading-relaxed">
               Sync between all your devices
@@ -368,9 +330,7 @@ export function BentoGrid() {
                   <FileText className="w-5 h-5 text-brown-700" />
                 </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-black text-brown-900">
-                Recipe Notes
-              </h3>
+              <h3 className="text-xl md:text-2xl font-black text-brown-900">Recipe Notes</h3>
             </div>
             <p className="text-brown-800 font-medium text-sm leading-relaxed mt-1 relative">
               <span className="invisible">{fullText}</span>
@@ -379,8 +339,7 @@ export function BentoGrid() {
                 <motion.span
                   className="inline-block w-px h-3.5 bg-brown-800 ml-0.5 translate-y-0.5"
                   animate={{
-                    opacity:
-                      typedText.length < fullText.length ? [1] : [1, 0, 1],
+                    opacity: typedText.length < fullText.length ? [1] : [1, 0, 1],
                   }}
                   transition={{ duration: 1, repeat: Infinity, ease: steps(2) }}
                 />
@@ -397,12 +356,9 @@ export function BentoGrid() {
                 <Sparkles className="w-7 h-7 text-orange-200" />
               </div>
               <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-black text-white">
-                  Simple &amp; Focused
-                </h3>
+                <h3 className="text-xl md:text-2xl font-black text-white">Simple &amp; Focused</h3>
                 <p className="text-cream-100 font-medium text-sm mt-0.5 leading-relaxed">
-                  Just what you need. No AI, no complexity, no unnecessary
-                  features
+                  Just what you need. No AI, no complexity, no unnecessary features
                 </p>
               </div>
             </div>
@@ -424,5 +380,5 @@ export function BentoGrid() {
         </div>
       </div>
     </section>
-  )
+  );
 }

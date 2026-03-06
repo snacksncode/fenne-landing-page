@@ -1,16 +1,16 @@
-import { ImageResponse } from 'next/og'
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { ImageResponse } from 'next/og';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-export const alt = "Fenne - Stop asking What's for dinner?"
-export const size = { width: 1200, height: 630 }
-export const contentType = 'image/png'
+export const alt = "Fenne - Stop asking What's for dinner?";
+export const size = { width: 1200, height: 630 };
+export const contentType = 'image/png';
 
 export default async function OGImage() {
   const [satoshiBlack, satoshiMedium] = await Promise.all([
     readFile(join(process.cwd(), 'src/app/fonts/Satoshi-Black.otf')),
     readFile(join(process.cwd(), 'src/app/fonts/Satoshi-Medium.otf')),
-  ])
+  ]);
 
   return new ImageResponse(
     <div
@@ -111,5 +111,5 @@ export default async function OGImage() {
         },
       ],
     }
-  )
+  );
 }

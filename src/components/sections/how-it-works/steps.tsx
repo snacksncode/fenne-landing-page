@@ -1,17 +1,11 @@
-import {
-  BookPlus,
-  CalendarDays,
-  ListChecks,
-  ShoppingCart,
-  Utensils,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { BookPlus, CalendarDays, ListChecks, ShoppingCart, Utensils } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 export interface Step {
-  icon: LucideIcon
-  title: string
-  description: string
-  step: string
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  step: string;
 }
 
 export const steps: Step[] = [
@@ -45,4 +39,4 @@ export const steps: Step[] = [
     description: "Open the app, see today's meal, start cooking",
     step: 'Step 5',
   },
-]
+];

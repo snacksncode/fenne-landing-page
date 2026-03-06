@@ -1,4 +1,4 @@
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 export const satoshi = localFont({
   src: [
@@ -8,10 +8,10 @@ export const satoshi = localFont({
     { path: './fonts/Satoshi-Black.otf', weight: '900', style: 'normal' },
   ],
   variable: '--font-satoshi',
-})
+});
 
 export const spaceMono = localFont({
   src: './fonts/SpaceMono-Regular.ttf',
   weight: '400',
   variable: '--font-space-mono',
-})
+});

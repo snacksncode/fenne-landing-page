@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface GooglePlayBadgeProps {
-  width?: number
+  width?: number;
 }
 
 export function GooglePlayBadge({ width = 150 }: GooglePlayBadgeProps) {
@@ -12,13 +12,7 @@ export function GooglePlayBadge({ width = 150 }: GooglePlayBadgeProps) {
       href="https://play.google.com/store/apps/details?id=app.fenne"
       className="transition-all hover:scale-105 active:scale-95"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        id="svg51"
-        width={width}
-        version="1.1"
-        viewBox="0 0 180 53.333"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" id="svg51" width={width} version="1.1" viewBox="0 0 180 53.333">
         <path
           id="path11"
           d="m173.33 53.333h-166.66c-3.6666 0-6.6665-2.9999-6.6665-6.6665v-39.999c0-3.6666 2.9999-6.6665 6.6665-6.6665h166.66c3.6666 0 6.6665 2.9999 6.6665 6.6665v39.999c0 3.6666-2.9999 6.6665-6.6665 6.6665"
@@ -71,5 +65,5 @@ export function GooglePlayBadge({ width = 150 }: GooglePlayBadgeProps) {
         />
       </svg>
     </Link>
-  )
+  );
 }

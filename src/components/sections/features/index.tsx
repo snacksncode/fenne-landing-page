@@ -1,1 +1,1 @@
-export { BentoGrid } from './BentoGrid'
+export { BentoGrid } from './BentoGrid';
