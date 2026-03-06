@@ -5,6 +5,7 @@ import { useLocalStorage } from '@/lib/useLocalStorage';
 export const featureFlagKeys = {
   howItWorksV2: 'how_it_works_v2',
   smoothScroll: 'smooth_scroll',
+  stripeGradient: 'stripe_gradient',
 } as const;
 
 export const featureFlags = [
@@ -18,6 +19,12 @@ export const featureFlags = [
     key: featureFlagKeys.smoothScroll,
     label: 'Smooth Scroll',
     description: `Lenis smooth scrolling across the entire site.`,
+    defaultValue: true,
+  },
+  {
+    key: featureFlagKeys.stripeGradient,
+    label: 'Stripe Gradient',
+    description: `Animated WebGL stripe gradient in the hero. When off, uses a simple orange gradient.`,
     defaultValue: true,
   },
 ];
