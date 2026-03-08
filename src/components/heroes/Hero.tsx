@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { m } from 'motion/react';
 import { useScrollTo } from '@/lib/scroll-utils';
 import { ItchBadge } from '@/components/icons/ItchBadge';
 import { AppStoreBadge } from '@/components/icons/AppStoreBadge';
+import { easeOutCubic } from '@/lib/easings';
 
-/**
- * AnimatedWords - Splits text into words and wraps each in a span
- * Each word gets a staggered CSS animation delay
- */
+const ease = easeOutCubic;
+
 export function AnimatedWords({
   text,
   className = '',
@@ -23,14 +23,20 @@ export function AnimatedWords({
   return (
     <>
       {text.split(' ').map((word, i) => (
-        <span
+        <m.span
           key={i}
-          className={`${className} animate-hero-word`}
-          style={{ animationDelay: `${baseDelay + i * stagger}ms` }}
+          className={className}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease,
+            delay: (baseDelay + i * stagger) / 1000,
+          }}
         >
           {word}
           {'\u00A0'}
-        </span>
+        </m.span>
       ))}
     </>
   );
@@ -49,7 +55,7 @@ export function StoreCTAs({ className }: { className?: string }) {
 export function HeroBackground() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden">
-      <div className="absolute top-0 left-0 h-full w-[400%] lg:w-[200%] bg-[linear-gradient(to_right,#f96f4d,#f9954d,#ec8032,#f9ae4d,#f9864d,#f9bd4d,#f96f4d)] [--scroll-end:-75%] lg:[--scroll-end:-50%] animate-[gradient-scroll_15s_ease-in-out_infinite_alternate]" />
+      <div className="absolute top-0 left-0 h-full w-[400%] lg:w-[200%] bg-[linear-gradient(to_right,#f96f4d,#f9954d,#ec8032,#f9ae4d,#f9864d,#f9bd4d,#f96f4d)] animate-[gradient-scroll-mobile_15s_ease-in-out_infinite_alternate] lg:animate-[gradient-scroll-desktop_15s_ease-in-out_infinite_alternate]" />
       <div
         className="absolute inset-0 z-1"
         style={{
@@ -67,7 +73,12 @@ export function Hero() {
     <section id="hero-float" className="relative flex h-screen items-center justify-center overflow-hidden">
       <HeroBackground />
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 sm:px-12">
-        <div className="animate-hero-badge mb-6 flex items-center gap-2 text-2xl font-bold text-brown-800">
+        <m.div
+          className="mb-6 flex items-center gap-2 text-2xl font-bold text-brown-800"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease }}
+        >
           <span>
             Hi! My name is <span className="text-orange-600">Fenne</span>
           </span>
@@ -79,26 +90,40 @@ export function Hero() {
             priority
             className="w-10 aspect-square rounded-sm"
           />
-        </div>
+        </m.div>
         <h1 className="text-center text-[clamp(3rem,8vw,6rem)] font-black leading-[1.05] tracking-tight text-brown-900">
-          <AnimatedWords text="Stop asking" className="inline-block" baseDelay={150} stagger={50} />
+          <AnimatedWords text="Stop asking" className="inline-block" stagger={40} />
           <br />
           <span className="text-orange-500 max-md:mt-1 inline-block">
-            <AnimatedWords text="What's for dinner?" className="inline-block" baseDelay={250} stagger={50} />
+            <AnimatedWords text="What's for dinner?" className="inline-block" baseDelay={100} stagger={40} />
           </span>
         </h1>
 
-        <p className="animate-hero-subheading text-pretty mt-6 max-w-3xl text-center text-[clamp(1.125rem,2vw,1.25rem)] font-medium leading-relaxed text-brown-800">
+        <m.p
+          className="text-pretty mt-6 max-w-3xl text-center text-[clamp(1.125rem,2vw,1.25rem)] font-medium leading-relaxed text-brown-800"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease, delay: 0.2 }}
+        >
           Plan your meals in advance, save your favorite recipes, and get your groceries done. All from one app! You can
           even invite someone and do it together
-        </p>
+        </m.p>
 
-        <div className="animate-hero-cta">
+        <m.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease, delay: 0.4 }}
+        >
           <StoreCTAs className="mt-10 flex flex-wrap justify-center gap-3 flex-row sm:gap-4" />
-        </div>
+        </m.div>
       </div>
 
-      <div className="animate-hero-learn-more z-20 absolute bottom-12 inset-x-0 flex justify-center">
+      <m.div
+        className="z-20 absolute bottom-12 inset-x-0 flex justify-center"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease, delay: 0.6 }}
+      >
         <button
           onClick={() => scrollTo('#features')}
           className="flex items-center gap-2 rounded-full bg-cream-100 px-6 py-3 transition-transform hover:scale-105 text-sm font-semibold text-brown-900 shadow-lg"
@@ -108,7 +133,7 @@ export function Hero() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </button>
-      </div>
+      </m.div>
     </section>
   );
 }
