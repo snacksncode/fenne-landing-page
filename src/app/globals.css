@@ -93,3 +93,12 @@ select:focus-visible {
     border-radius: 40% 60% 65% 35% / 45% 55% 45% 55%;
   }
 }
+
+@keyframes gradient-scroll {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}

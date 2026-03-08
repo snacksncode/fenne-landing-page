@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import { useAnimate, stagger } from 'motion/react';
 import { easeOutCubic } from '@/lib/easings';
-import { StripeGradientBackground } from './StripeGradient';
-import { featureFlagKeys, useFeatureFlag } from '@/lib/feature-flags';
 import { useScrollTo } from '@/lib/scroll-utils';
 import { ItchBadge } from '@/components/icons/ItchBadge';
 import { AppStoreBadge } from '@/components/icons/AppStoreBadge';
@@ -40,22 +38,16 @@ export function StoreCTAs({ className }: { className?: string }) {
 }
 
 export function HeroBackground() {
-  const stripeGradient = useFeatureFlag(featureFlagKeys.stripeGradient);
-
   return (
     <div className="absolute inset-0 z-0">
-      {stripeGradient ? (
-        <div className="absolute inset-0 translate-y-1/5">
-          <StripeGradientBackground />
-        </div>
-      ) : (
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to right, #f96f4d, #f9954d, #ec8032, #f9ae4d, #f9864d, #f9bd4d)`,
-          }}
-        />
-      )}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(to right, #f96f4d, #f9954d, #ec8032, #f9ae4d, #f9864d, #f9bd4d, #f96f4d)`,
+          backgroundSize: '200% 100%',
+          animation: 'gradient-scroll 15s ease-in-out infinite alternate',
+        }}
+      />
       <div
         className="absolute inset-0 z-1"
         style={{
