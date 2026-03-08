@@ -96,9 +96,59 @@ select:focus-visible {
 
 @keyframes gradient-scroll {
   0% {
-    background-position: 0% 50%;
+    transform: translateX(0);
   }
   100% {
-    background-position: 100% 50%;
+    transform: translateX(var(--scroll-end, -75%));
   }
+}
+
+/* Hero entry animations */
+@keyframes hero-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--slide-distance, 30px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-hero-badge {
+  animation: hero-slide-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) both;
+  --slide-distance: 16px;
+}
+
+.animate-hero-word {
+  animation: hero-slide-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) both;
+  --slide-distance: 30px;
+}
+
+.animate-hero-subheading {
+  animation: hero-slide-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: 550ms;
+  --slide-distance: 40px;
+}
+
+.animate-hero-cta {
+  animation: hero-scale-in 0.6s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: 850ms;
+}
+
+.animate-hero-learn-more {
+  animation: hero-slide-up 0.6s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: 850ms;
+  --slide-distance: 16px;
 }

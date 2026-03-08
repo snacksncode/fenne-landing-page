@@ -2,14 +2,14 @@
 
 import { useRef, useState, type RefObject } from 'react';
 import {
-  motion,
   useScroll,
   useTransform,
   useInView,
   AnimatePresence,
   useMotionValueEvent,
   type MotionValue,
-} from 'motion/react';
+  } from 'motion/react';
+import * as m from 'motion/react-m';
 import { easeOutQuint, easeOutCubic } from '@/lib/easings';
 import { steps, type Step } from './steps';
 import { useScrollTo } from '@/lib/scroll-utils';
@@ -65,7 +65,7 @@ function StepIcon({
   const half = iconContainerSize / 2;
 
   return (
-    <motion.div
+    <m.div
       className="absolute flex items-center justify-center"
       style={{
         left: '50%',
@@ -82,7 +82,7 @@ function StepIcon({
       >
         <Icon className={`${iconSize} text-orange-600`} strokeWidth={2} />
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -103,8 +103,8 @@ function DesktopStepLabel({
 
   return (
     <div className="relative">
-      <motion.div className="inset-0 absolute bg-cream-50 -z-1" />
-      <motion.div className="md:justify-center flex" style={{ opacity }}>
+      <m.div className="inset-0 absolute bg-cream-50 -z-1" />
+      <m.div className="md:justify-center flex" style={{ opacity }}>
         <button
           className="text-center px-3 lg:px-4 flex md:flex-col items-center cursor-pointer hover:scale-105 transition-transform"
           onClick={onClick}
@@ -117,7 +117,7 @@ function DesktopStepLabel({
             {step.step}
           </span>
         </button>
-      </motion.div>
+      </m.div>
     </div>
   );
 }
@@ -135,22 +135,22 @@ function SectionHeader({
 }) {
   return (
     <div ref={titleRef} className="relative mx-auto max-w-5xl px-6 text-center mb-12 md:mb-20">
-      <motion.p
+      <m.p
         className="text-sm font-bold uppercase mb-1 tracking-[0.2em] text-orange-500 md:mb-4 font-mono"
         initial={{ opacity: 0, y: 20 }}
         animate={titleInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: easeOutCubic }}
       >
         How it works
-      </motion.p>
-      <motion.h2
+      </m.p>
+      <m.h2
         className="font-sans text-3xl md:text-5xl font-black tracking-tight text-brown-900"
         initial={{ opacity: 0, y: 30 }}
         animate={titleInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.9, ease: easeOutQuint, delay: 0.1 }}
       >
         One complete cycle
-      </motion.h2>
+      </m.h2>
     </div>
   );
 }
@@ -161,7 +161,7 @@ function MobileStepCardV3({ step, index }: { step: Step; index: number }) {
   const Icon = step.icon;
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={{ opacity: 0, y: 20, scale: 0.975 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
@@ -189,7 +189,7 @@ function MobileStepCardV3({ step, index }: { step: Step; index: number }) {
         <h4 className="relative text-lg font-bold text-brown-900 leading-tight mt-0.5">{step.title}</h4>
         <p className="relative text-base text-brown-800 text-pretty max-w-3/4 mt-1.5">{step.description}</p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -277,7 +277,7 @@ export function HowItWorks() {
                 opacity={0.5}
               />
 
-              <motion.circle
+              <m.circle
                 cx={RING_SIZE / 2}
                 cy={RING_SIZE / 2}
                 r={RADIUS}
@@ -294,7 +294,7 @@ export function HowItWorks() {
               />
             </svg>
 
-            <motion.div
+            <m.div
               className="absolute border-2 border-orange-500 inset-0 rounded-full"
               style={{ scale: pulseScale, opacity: pulseOpacity }}
             />
@@ -302,7 +302,7 @@ export function HowItWorks() {
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <AnimatePresence mode="wait">
                 {steps[currentStepIndex] && (
-                  <motion.div
+                  <m.div
                     key={`step-${currentStepIndex}`}
                     initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -326,7 +326,7 @@ export function HowItWorks() {
                         </>
                       );
                     })()}
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
@@ -356,12 +356,12 @@ export function HowItWorks() {
             ))}
           </div>
         </div>
-        <motion.div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
+        <m.div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
           <span className="text-xs font-bold uppercase tracking-widest text-brown-500">Scroll to explore</span>
-          <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1, ease: easeOutQuint }}>
+          <m.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1, ease: easeOutQuint }}>
             <ChevronDown className="w-4 h-4 text-brown-400" strokeWidth={2} />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

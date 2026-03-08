@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
+import * as m from 'motion/react-m';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { useScrollTo } from '@/lib/scroll-utils';
@@ -116,7 +117,7 @@ export function Nav() {
         </button>
 
         <div className="hidden md:flex items-center gap-1 relative">
-          <motion.div
+          <m.div
             className="absolute bottom-0.5 left-0 h-0.5 rounded-full bg-orange-500 pointer-events-none"
             animate={{
               opacity: activeIndex !== null ? 1 : 0,
@@ -162,7 +163,7 @@ export function Nav() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <m.div
             data-testid="mobile-menu"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -175,7 +176,7 @@ export function Nav() {
           >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link, i) => (
-                <motion.button
+                <m.button
                   key={link.href}
                   initial={{ x: -16, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -187,10 +188,10 @@ export function Nav() {
                   className="px-3 py-3 text-left text-base font-medium text-brown-800 rounded-lg"
                 >
                   {link.label}
-                </motion.button>
+                </m.button>
               ))}
 
-              <motion.button
+              <m.button
                 initial={{ x: -16, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{
@@ -201,9 +202,9 @@ export function Nav() {
                 className="mt-2 px-5 py-3 text-sm font-medium rounded-full bg-brown-900 text-cream-50 text-center"
               >
                 Get Started
-              </motion.button>
+              </m.button>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </nav>

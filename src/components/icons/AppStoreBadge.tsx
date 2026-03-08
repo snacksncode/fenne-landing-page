@@ -11,6 +11,7 @@ export function AppStoreBadge({ height }: AppStoreBadgeProps) {
     <Link
       href="https://apps.apple.com/app/fenne-meal-planner-groceries/id6759224212"
       target="_blank"
+      aria-label="Download Fenne on the App Store"
       className="transition-all hover:scale-105 active:scale-95 shrink-0"
     >
       <svg

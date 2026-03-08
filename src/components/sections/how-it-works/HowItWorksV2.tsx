@@ -2,7 +2,8 @@
 
 import { Fragment, useRef, useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
-import { motion, useInView, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react';
+import { useInView, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react';
+import * as m from 'motion/react-m';
 import { easeOutQuint } from '@/lib/easings';
 import { steps, type Step } from './steps';
 
@@ -47,7 +48,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
       </span>
 
       {/* Icon with glow */}
-      <motion.div
+      <m.div
         style={{ position: 'relative', marginBottom: 32 }}
         initial={{ y: 10, opacity: 0 }}
         animate={inView ? { y: 0, opacity: 1 } : {}}
@@ -86,10 +87,10 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
             strokeWidth={1.5}
           />
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Eyebrow */}
-      <motion.span
+      <m.span
         initial={{ y: 10, opacity: 0 }}
         animate={inView ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.4, delay: 0.1 }}
@@ -105,7 +106,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
         }}
       >
         {step.step}
-      </motion.span>
+      </m.span>
 
       {/* Giant title — word-by-word reveal */}
       <h3
@@ -135,7 +136,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
               margin: '-0.12em',
             }}
           >
-            <motion.span
+            <m.span
               style={{ display: 'inline-block' }}
               initial={{ y: '105%' }}
               animate={inView ? { y: 0 } : {}}
@@ -146,7 +147,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
               }}
             >
               {word}
-            </motion.span>
+            </m.span>
           </span>
         ))}
       </h3>
@@ -177,7 +178,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
               margin: '-0.12em',
             }}
           >
-            <motion.span
+            <m.span
               style={{ display: 'inline-block' }}
               initial={{ y: '105%' }}
               animate={inView ? { y: 0 } : {}}
@@ -188,7 +189,7 @@ function StepSlide({ step, index }: { step: Step; index: number }) {
               }}
             >
               {word}
-            </motion.span>
+            </m.span>
           </span>
         ))}
       </p>
@@ -233,7 +234,7 @@ function GapConnector() {
           strokeLinecap="round"
           fill="none"
         />
-        <motion.path
+        <m.path
           d={`M 2 0 L 2 ${h}`}
           stroke="var(--color-orange-500)"
           strokeWidth="8"
@@ -269,7 +270,7 @@ function ParallaxBlobs({
   return (
     <>
       {/* Top-left — large warm orange */}
-      <motion.div
+      <m.div
         style={{
           ...blob,
           y: y1,
@@ -282,7 +283,7 @@ function ParallaxBlobs({
         }}
       />
       {/* Right side — medium peach */}
-      <motion.div
+      <m.div
         style={{
           ...blob,
           y: y2,
@@ -295,7 +296,7 @@ function ParallaxBlobs({
         }}
       />
       {/* Center-left — soft cream-orange */}
-      <motion.div
+      <m.div
         style={{
           ...blob,
           y: y3,
@@ -308,7 +309,7 @@ function ParallaxBlobs({
         }}
       />
       {/* Bottom-right — small punchy */}
-      <motion.div
+      <m.div
         style={{
           ...blob,
           y: y4,

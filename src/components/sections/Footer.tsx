@@ -18,11 +18,11 @@ export function Footer() {
             <span className="text-2xl font-bold tracking-tight text-cream-50">Fenne</span>
           </div>
 
-          <p className="text-cream-50/60 font-mono text-sm tracking-wide mb-10">Meal planning, minus the headache</p>
+          <p className="text-cream-50 font-mono text-sm tracking-wide mb-10">Meal planning, minus the headache</p>
 
           <div className="w-full max-w-xs h-px bg-cream-50/10 mb-8" />
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-xs text-cream-50/40">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-xs text-cream-100">
             <span>&copy; {new Date().getFullYear()} Fenne. All rights reserved.</span>
             <div className="flex items-center gap-6">
               {footerLinks.map((link) => (

@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { satoshi, spaceMono } from './fonts';
 import { SmoothScroll } from '@/components/providers/SmoothScroll';
+import { MotionProvider } from '@/components/providers/MotionProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -31,7 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${satoshi.variable} ${spaceMono.variable} overflow-x-hidden`}>
       <body className="antialiased">
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <MotionProvider>{children}</MotionProvider>
+        </SmoothScroll>
         <Analytics />
         <SpeedInsights />
       </body>

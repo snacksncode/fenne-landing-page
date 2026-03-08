@@ -11,6 +11,7 @@ export function ItchBadge({ height }: GooglePlayBadgeProps) {
     <Link
       href="https://snacksncode.itch.io/fenne"
       target="_blank"
+      aria-label="Download Fenne on itch.io"
       className="transition-all shrink-0 hover:scale-105 active:scale-95"
     >
       <svg xmlns="http://www.w3.org/2000/svg" height={height} viewBox="0 0 740 230" fill="none">

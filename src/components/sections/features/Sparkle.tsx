@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import * as m from 'motion/react-m';
 
 interface SparkleProps {
   width: string;
@@ -9,7 +9,7 @@ interface SparkleProps {
 
 export function Sparkle({ width, delay = 0 }: SparkleProps) {
   return (
-    <motion.svg
+    <m.svg
       className={`${width} text-orange-200 origin-center`}
       viewBox="0 0 24 24"
       fill="none"
@@ -30,6 +30,6 @@ export function Sparkle({ width, delay = 0 }: SparkleProps) {
     >
       <path d="M12 8v8" />
       <path d="M8 12h8" />
-    </motion.svg>
+    </m.svg>
   );
 }

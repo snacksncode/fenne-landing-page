@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'motion/react';
+import { useInView } from 'motion/react';
+import * as m from 'motion/react-m';
 import { easeOutCubic, easeOutQuint } from '@/lib/easings';
 import { ItchBadge } from '@/components/icons/ItchBadge';
 import { AppStoreBadge } from '@/components/icons/AppStoreBadge';
@@ -45,7 +46,7 @@ export function CTA() {
         />
 
         <div className="relative z-5 mx-auto max-w-4xl px-6 lg:px-12 text-center">
-          <motion.h2
+          <m.h2
             ref={headlineRef}
             className="text-[clamp(2.5rem,7vw,4.5rem)] font-black leading-[1.05] tracking-tight text-white"
             initial={headlineInitial}
@@ -53,8 +54,8 @@ export function CTA() {
             transition={{ duration: 1, ease: easeOutQuint }}
           >
             Ready to eat smarter?
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             ref={revealRef1}
             className="cta-reveal mt-6 mx-auto font-medium max-w-lg text-lg text-cream-100 md:text-xl"
             initial={revealInitial}
@@ -63,8 +64,8 @@ export function CTA() {
           >
             Plan your next week in just 10 minutes. <br className="max-md:hidden" />
             Shop with a list that actually makes sense.
-          </motion.p>
-          <motion.div
+          </m.p>
+          <m.div
             ref={revealRef2}
             className="cta-reveal mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center"
             initial={revealInitial}
@@ -74,7 +75,7 @@ export function CTA() {
             <ItchBadge height={45} />
             <AppStoreBadge height={45} />
             {/* <GooglePlayBadge width={150} /> */}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

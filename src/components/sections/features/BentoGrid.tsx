@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useHover } from '@uidotdev/usehooks';
-import { motion, steps, useInView } from 'motion/react';
+import { steps, useInView } from 'motion/react';
+import * as m from 'motion/react-m';
 import Image from 'next/image';
 import weeklyPlan from '../../../../public/mockups/weekly-plan-portrait.png';
 import recipesList from '../../../../public/mockups/recipes-list-portrait.png';
@@ -81,22 +82,22 @@ export function BentoGrid() {
     >
       <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
         <div ref={titleRef} className="mb-12 lg:mb-24 text-center">
-          <motion.p
+          <m.p
             className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, ease: easeOutCubic }}
           >
             What&apos;s inside
-          </motion.p>
-          <motion.h2
+          </m.p>
+          <m.h2
             className="font-sans text-4xl md:text-5xl font-black tracking-tight text-brown-900"
             initial={{ opacity: 0, y: 30 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, ease: easeOutQuint, delay: 0.1 }}
           >
             Everything you need
-          </motion.h2>
+          </m.h2>
         </div>
 
         <div
@@ -107,7 +108,7 @@ export function BentoGrid() {
             'lg:grid-cols-15 lg:[grid-template-areas:"plan_plan_plan_plan_plan_plan_plan_plan_plan_grocery_grocery_grocery_grocery_grocery_grocery"_"recipe_recipe_recipe_recipe_recipe_recipe_recipe_recipe_recipe_grocery_grocery_grocery_grocery_grocery_grocery"_"shopping_shopping_shopping_shopping_shopping_sync_sync_sync_sync_sync_notes_notes_notes_notes_notes"_"shopping_shopping_shopping_shopping_shopping_simple_simple_simple_simple_simple_simple_simple_simple_simple_simple"]',
           ].join(' ')}
         >
-          <motion.div
+          <m.div
             {...cardAnimation}
             ref={planMealsRef}
             className="[grid-area:plan] relative rounded-3xl bg-linear-to-b from-orange-500 to-orange-600 p-4 md:p-6 group"
@@ -127,7 +128,7 @@ export function BentoGrid() {
                 Plan in minutes, not hours
               </p>
             </div>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: isPlanMealsHovered ? -16 : 0 }}
               transition={{ delay: mealsAnimationComplete ? 0 : 0.5 }}
@@ -136,12 +137,12 @@ export function BentoGrid() {
               className="max-lg:hidden absolute -bottom-32 -top-16 right-16 rotate-12"
             >
               <Image src={weeklyPlan} className="h-full w-auto" alt="Weekly meal planning view" />
-            </motion.div>
+            </m.div>
             <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/8 -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-white/5 translate-y-1/3 -translate-x-1/3" />
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             onAnimationComplete={() => setGroceriesAnimComplete(true)}
             className="[grid-area:grocery] relative overflow-hidden rounded-3xl p-4 md:p-6 bg-linear-to-br from-[#0D9488] to-[#0F766E]"
@@ -161,7 +162,7 @@ export function BentoGrid() {
                 {groceryItems.map((item, i) => {
                   const isChecked = checkedItems.includes(item.id);
                   return (
-                    <motion.button
+                    <m.button
                       key={item.label}
                       onClick={() => toggleItem(item.id)}
                       initial={{ opacity: 0, x: -16 }}
@@ -171,7 +172,7 @@ export function BentoGrid() {
                         isChecked ? 'bg-white/10 hover:bg-white/15' : 'bg-white/5 hover:bg-white/10'
                       }`}
                     >
-                      <motion.div
+                      <m.div
                         animate={{
                           backgroundColor: isChecked ? 'rgba(255, 255, 255, 0.25)' : 'transparent',
                           borderColor: isChecked ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.3)',
@@ -182,7 +183,7 @@ export function BentoGrid() {
                         }`}
                       >
                         {isChecked && (
-                          <motion.svg
+                          <m.svg
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             exit={{ scale: 0 }}
@@ -201,10 +202,10 @@ export function BentoGrid() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
-                          </motion.svg>
+                          </m.svg>
                         )}
-                      </motion.div>
-                      <motion.span
+                      </m.div>
+                      <m.span
                         animate={{
                           opacity: isChecked ? 0.4 : 0.9,
                           textDecoration: isChecked ? 'line-through' : 'none',
@@ -215,20 +216,20 @@ export function BentoGrid() {
                         }`}
                       >
                         {item.label}
-                      </motion.span>
+                      </m.span>
                       <span className="text-[10px] font-bold uppercase tracking-wider text-white/30 shrink-0">
                         {item.aisle}
                       </span>
-                    </motion.button>
+                    </m.button>
                   );
                 })}
               </div>
             </div>
             <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-28 h-28 rounded-full bg-white/5 translate-y-1/3 -translate-x-1/3" />
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             ref={recipesRef}
             className="[grid-area:recipe] relative overflow-hidden rounded-3xl bg-linear-to-b from-[#8B5CF6] to-[#6D28D9] p-4 md:p-6 group"
@@ -247,7 +248,7 @@ export function BentoGrid() {
               </p>
             </div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.75 }}
@@ -259,11 +260,11 @@ export function BentoGrid() {
               className="max-lg:hidden absolute -bottom-64 top-4 right-8"
             >
               <Image src={recipesList} className="h-full w-auto" alt="Weekly meal planning view" />
-            </motion.div>
+            </m.div>
             <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             className="[grid-area:shopping] relative overflow-hidden rounded-3xl bg-green-500 p-4 md:p-6"
           >
@@ -279,7 +280,7 @@ export function BentoGrid() {
             </p>
             <div className="mt-3 flex gap-1.5">
               {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => (
-                <motion.div
+                <m.div
                   key={`${day}-${i}`}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -289,19 +290,19 @@ export function BentoGrid() {
                   }`}
                 >
                   {day}
-                </motion.div>
+                </m.div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             className="[grid-area:sync] relative overflow-hidden rounded-3xl bg-linear-to-br from-[#3B82F6] to-[#14B8A6] p-4 md:p-6"
           >
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center">
-                  <motion.div
+                  <m.div
                     animate={{ rotate: [0, 360] }}
                     transition={{
                       duration: 4,
@@ -310,7 +311,7 @@ export function BentoGrid() {
                     }}
                   >
                     <RefreshCw className="w-5 h-5 text-white" />
-                  </motion.div>
+                  </m.div>
                 </div>
               </div>
               <h3 className="text-xl md:text-2xl font-black text-white">Realtime Sync</h3>
@@ -318,9 +319,9 @@ export function BentoGrid() {
             <p className="text-cream-100 font-medium mt-1 text-pretty text-sm leading-relaxed">
               Sync between all your devices
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             className="[grid-area:notes] relative overflow-hidden rounded-3xl bg-linear-to-br from-[#FEF7EA] to-[#FEF2DD] border border-orange-200 p-4 md:p-6"
           >
@@ -336,7 +337,7 @@ export function BentoGrid() {
               <span className="invisible">{fullText}</span>
               <span className="absolute top-0 left-0">
                 {typedText}
-                <motion.span
+                <m.span
                   className="inline-block w-px h-3.5 bg-brown-800 ml-0.5 translate-y-0.5"
                   animate={{
                     opacity: typedText.length < fullText.length ? [1] : [1, 0, 1],
@@ -345,9 +346,9 @@ export function BentoGrid() {
                 />
               </span>
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             {...cardAnimation}
             className="[grid-area:simple] relative overflow-hidden rounded-3xl p-4 md:p-6 bg-linear-to-r from-brown-900 to-brown-800"
           >
@@ -376,7 +377,7 @@ export function BentoGrid() {
                 <Sparkle width="w-3.5" delay={2.4} />
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

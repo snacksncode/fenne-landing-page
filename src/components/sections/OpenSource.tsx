@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'motion/react';
+import { useInView } from 'motion/react';
+import * as m from 'motion/react-m';
 import { Github, ExternalLink, Smartphone, Server } from 'lucide-react';
 import { easeOutCubic, easeOutQuint } from '@/lib/easings';
 import Link from 'next/link';
@@ -47,7 +48,7 @@ export function OpenSource() {
       />
 
       <div className="relative z-1 mx-auto max-w-5xl px-6 lg:px-12">
-        <motion.div
+        <m.div
           className="mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,13 +62,13 @@ export function OpenSource() {
             All source code is public.
             <br /> Clone it, fork it, break it, fix it.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-6 md:grid-cols-2 max-w-4xl">
           {repos.map((repo, i) => {
             const Icon = repo.icon;
             return (
-              <motion.div
+              <m.div
                 key={repo.name}
                 initial={{ opacity: 0, y: 24, scale: 0.97 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -122,19 +123,19 @@ export function OpenSource() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
 
-        <motion.p
+        <m.p
           className="font-mono text-sm text-cream-50/30 mt-12"
           initial={fadeInitial}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.55, ease: easeOutCubic }}
         >
           <span className="text-green-500">$</span> echo &quot;Star us, report bugs, or contribute features&quot;
-        </motion.p>
+        </m.p>
       </div>
     </section>
   );

@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'motion/react';
+import { useInView } from 'motion/react';
+import * as m from 'motion/react-m';
 import { easeOutQuint } from '@/lib/easings';
 
 const testimonials = [
@@ -115,7 +116,7 @@ export function Testimonials() {
       />
 
       <div className="relative mx-auto max-w-6xl px-6">
-        <motion.h2
+        <m.h2
           ref={titleRef}
           className="testimonials-title mb-14 text-center font-sans text-4xl md:text-5xl font-black tracking-tight text-cream-50 md:mb-20"
           initial={titleInitial}
@@ -123,9 +124,9 @@ export function Testimonials() {
           transition={{ duration: 0.9, ease: easeOutQuint }}
         >
           What our <span className="text-orange-500">beta testers</span> say
-        </motion.h2>
+        </m.h2>
 
-        <motion.div
+        <m.div
           ref={cardsRef}
           className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-8"
           variants={containerVariants}
@@ -133,7 +134,7 @@ export function Testimonials() {
           animate={cardsInView ? 'visible' : 'hidden'}
         >
           {testimonials.map((t, i) => (
-            <motion.div key={t.name} className="testimonial-card relative" variants={cardVariants}>
+            <m.div key={t.name} className="testimonial-card relative" variants={cardVariants}>
               <div
                 className={`relative rounded-3xl px-7 py-6 md:px-8 md:py-7 transition-all duration-300 hover:scale-[1.03] ${
                   t.accent
@@ -176,9 +177,9 @@ export function Testimonials() {
                   {t.name} · Beta Tester
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
