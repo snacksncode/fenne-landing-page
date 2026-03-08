@@ -261,6 +261,7 @@ function ParallaxBlobs({
   const blob: CSSProperties = {
     position: 'absolute',
     borderRadius: '50%',
+    zIndex: -1,
     pointerEvents: 'none',
     filter: 'blur(80px)',
   };
@@ -345,6 +346,7 @@ export function HowItWorksV2() {
         background: 'var(--color-cream-50)',
         position: 'relative',
         overflow: 'hidden',
+        isolation: 'isolate',
       }}
     >
       <ParallaxBlobs y1={y1} y2={y2} y3={y3} y4={y4} />

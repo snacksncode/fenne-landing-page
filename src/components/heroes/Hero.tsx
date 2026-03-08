@@ -40,14 +40,7 @@ export function StoreCTAs({ className }: { className?: string }) {
 export function HeroBackground() {
   return (
     <div className="absolute inset-0 z-0">
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to right, #f96f4d, #f9954d, #ec8032, #f9ae4d, #f9864d, #f9bd4d, #f96f4d)`,
-          backgroundSize: '200% 100%',
-          animation: 'gradient-scroll 15s ease-in-out infinite alternate',
-        }}
-      />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f96f4d,#f9954d,#ec8032,#f9ae4d,#f9864d,#f9bd4d,#f96f4d)] bg-size-[400%_100%] lg:bg-size-[200%_100%] animate-[gradient-scroll_15s_ease-in-out_infinite_alternate]" />
       <div
         className="absolute inset-0 z-1"
         style={{
