@@ -2,7 +2,7 @@
 
 import { Fragment, useRef, useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
-import { useInView, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react';
+import { useInView, useScroll, useSpring } from 'motion/react';
 import * as m from 'motion/react-m';
 import { easeOutQuint } from '@/lib/easings';
 import { steps, type Step } from './steps';
@@ -248,32 +248,20 @@ function GapConnector() {
   );
 }
 
-function ParallaxBlobs({
-  y1,
-  y2,
-  y3,
-  y4,
-}: {
-  y1: MotionValue<number>;
-  y2: MotionValue<number>;
-  y3: MotionValue<number>;
-  y4: MotionValue<number>;
-}) {
+function StaticBlobs() {
   const blob: CSSProperties = {
     position: 'absolute',
     borderRadius: '50%',
-    zIndex: -1,
     pointerEvents: 'none',
     filter: 'blur(80px)',
   };
 
   return (
-    <>
+    <div className="max-lg:hidden" style={{ position: 'absolute', inset: 0, zIndex: -1, pointerEvents: 'none' }}>
       {/* Top-left — large warm orange */}
-      <m.div
+      <div
         style={{
           ...blob,
-          y: y1,
           width: 560,
           height: 560,
           background: 'var(--color-orange-500)',
@@ -283,10 +271,9 @@ function ParallaxBlobs({
         }}
       />
       {/* Right side — medium peach */}
-      <m.div
+      <div
         style={{
           ...blob,
-          y: y2,
           width: 420,
           height: 420,
           background: 'var(--color-orange-200)',
@@ -296,10 +283,9 @@ function ParallaxBlobs({
         }}
       />
       {/* Center-left — soft cream-orange */}
-      <m.div
+      <div
         style={{
           ...blob,
-          y: y3,
           width: 500,
           height: 500,
           background: 'var(--color-orange-100)',
@@ -309,10 +295,9 @@ function ParallaxBlobs({
         }}
       />
       {/* Bottom-right — small punchy */}
-      <m.div
+      <div
         style={{
           ...blob,
-          y: y4,
           width: 340,
           height: 340,
           background: 'var(--color-orange-500)',
@@ -321,25 +306,13 @@ function ParallaxBlobs({
           right: '2%',
         }}
       />
-    </>
+    </div>
   );
 }
 
 export function HowItWorksV2() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 220]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, 160]);
-
   return (
     <section
-      ref={containerRef}
       id="how-it-works"
       style={{
         paddingTop: 96,
@@ -350,7 +323,7 @@ export function HowItWorksV2() {
         isolation: 'isolate',
       }}
     >
-      <ParallaxBlobs y1={y1} y2={y2} y3={y3} y4={y4} />
+      <StaticBlobs />
       {steps.map((step, i) => (
         <Fragment key={step.title}>
           <StepSlide step={step} index={i} />
