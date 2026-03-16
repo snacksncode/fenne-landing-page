@@ -8,10 +8,12 @@ export const satoshi = localFont({
     { path: './fonts/Satoshi-Black.otf', weight: '900', style: 'normal' },
   ],
   variable: '--font-satoshi',
+  display: 'swap',
 });
 
 export const spaceMono = localFont({
   src: './fonts/SpaceMono-Regular.ttf',
   weight: '400',
   variable: '--font-space-mono',
+  display: 'swap',
 });

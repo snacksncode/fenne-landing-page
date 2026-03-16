@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { m } from 'motion/react';
+import * as m from 'motion/react-m';
 import { useScrollTo } from '@/lib/scroll-utils';
 import { ItchBadge } from '@/components/icons/ItchBadge';
 import { AppStoreBadge } from '@/components/icons/AppStoreBadge';

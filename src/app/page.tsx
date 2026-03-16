@@ -1,12 +1,18 @@
+import dynamic from 'next/dynamic';
 import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/heroes/Hero';
 import { BentoGrid } from '@/components/sections/features/index';
-import { HowItWorksSection } from '@/components/sections/how-it-works';
-import { Footer } from '@/components/sections/Footer';
-import { Testimonials } from '@/components/sections/Testimonials';
-import { CTA } from '@/components/sections/CTA';
-import { OpenSource } from '@/components/sections/OpenSource';
 import Link from 'next/link';
+
+const HowItWorksSection = dynamic(() =>
+  import('@/components/sections/how-it-works').then((m) => ({ default: m.HowItWorksSection }))
+);
+const Testimonials = dynamic(() =>
+  import('@/components/sections/Testimonials').then((m) => ({ default: m.Testimonials }))
+);
+const OpenSource = dynamic(() => import('@/components/sections/OpenSource').then((m) => ({ default: m.OpenSource })));
+const CTA = dynamic(() => import('@/components/sections/CTA').then((m) => ({ default: m.CTA })));
+const Footer = dynamic(() => import('@/components/sections/Footer').then((m) => ({ default: m.Footer })));
 
 export default function Home() {
   return (
